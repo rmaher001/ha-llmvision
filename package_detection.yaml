@@ -1,0 +1,16 @@
+alias: Package Detection Test
+description: Manual test for package detection
+trigger: []
+action:
+  - service: llmvision.stream_analyzer
+    data:
+      provider: Google
+      message: "Is there a package visible? If yes, briefly describe the delivery person/company, package size, and where it was placed."
+      image_entity:
+        - camera.doorbell
+        - camera.front_side_camera
+        - camera.full_front_camera
+      max_frames: 6
+      min_frames_per_camera: 2
+      response_format: json
+      structure: '{"package_detected": {"type": "boolean"}, "delivery_person": {"type": "string"}, "package_size": {"type": "string"}, "placement": {"type": "string"}}'

@@ -62,10 +62,13 @@ DURATION = "duration"
 FRIGATE_RETRY_ATTEMPTS = "frigate_retry_attempts"
 FRIGATE_RETRY_SECONDS = "frigate_retry_seconds"
 MAX_FRAMES = "max_frames"
+MIN_FRAMES_PER_CAMERA = "min_frames_per_camera"
 INCLUDE_FILENAME = "include_filename"
 EXPOSE_IMAGES = "expose_images"
 GENERATE_TITLE = "generate_title"
 SENSOR_ENTITY = "sensor_entity"
+RESPONSE_FORMAT = "response_format"
+STRUCTURE = "structure"
 
 # Error messages
 ERROR_NOT_CONFIGURED = "{provider} is not configured"
