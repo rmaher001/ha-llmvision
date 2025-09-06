@@ -348,7 +348,21 @@ class Request:
         result = {}
         if gen_title is not None:
             result["title"] = re.sub(r"[^a-zA-Z0-9ŽžÀ-ÿ\s]", "", gen_title)
-        result["response_text"] = response_text
+        
+        # Handle structured response if requested
+        if call.response_format == "json" and provider_instance.supports_structured_output():
+            try:
+                import json
+                result["structured_response"] = json.loads(response_text)
+            except json.JSONDecodeError:
+                # If parsing fails, return as text
+                result["response_text"] = response_text
+            else:
+                # Also keep text version for backward compatibility
+                result["response_text"] = response_text
+        else:
+            result["response_text"] = response_text
+        
         return result
 
     def add_frame(self, base64_image, filename):
@@ -425,6 +439,10 @@ class Provider(ABC):
     async def validate(self) -> None | ServiceValidationError:
         pass
 
+    def supports_structured_output(self) -> bool:
+        """Return True if provider supports structured output."""
+        return False
+
     def _get_default_parameters(self, call: dict) -> dict:
         """Get default parameters from config entry"""
         entry_id = call.provider
@@ -498,6 +516,10 @@ class OpenAI(Provider):
     ):
         super().__init__(hass, api_key, model, endpoint=endpoint)
 
+    def supports_structured_output(self) -> bool:
+        """OpenAI supports structured output via JSON Schema."""
+        return True
+
     def _generate_headers(self) -> dict:
         return {
             "Content-type": "application/json",
@@ -529,6 +551,28 @@ class OpenAI(Provider):
             payload = {
                 k: v for k, v in payload.items() if k not in ("temperature", "top_p")
             }
+
+        # Add structured output format if requested
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Add additionalProperties: false to schema for OpenAI strict mode
+                if "additionalProperties" not in schema:
+                    schema["additionalProperties"] = False
+                
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": True
+                    }
+                }
+            except json.JSONDecodeError:
+                # If schema is invalid, don't add structured output
+                pass
 
         for image, filename in zip(call.base64_images, call.filenames):
             tag = (
@@ -700,6 +744,10 @@ class Anthropic(Provider):
     def __init__(self, hass: object, api_key: str, model: str):
         super().__init__(hass, api_key, model)
 
+    def supports_structured_output(self) -> bool:
+        """Return True if provider supports structured output."""
+        return True
+
     def _generate_headers(self) -> dict:
         return {
             "content-type": "application/json",
@@ -708,10 +756,20 @@ class Anthropic(Provider):
         }
 
     async def _make_request(self, data: dict) -> str:
+        import json
         headers = self._generate_headers()
         response = await self._post(url=ENDPOINT_ANTHROPIC, headers=headers, data=data)
-        response_text = response.get("content")[0].get("text")
-        return response_text
+        
+        # Handle tool use response for structured output
+        if "content" in response and len(response["content"]) > 0:
+            content = response["content"][0]
+            if content.get("type") == "tool_use":
+                # Extract the structured data from tool use
+                return json.dumps(content.get("input", {}))
+            else:
+                # Regular text response
+                return content.get("text", "")
+        return ""
 
     def _prepare_vision_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
@@ -722,6 +780,22 @@ class Anthropic(Provider):
             "temperature": default_parameters.get("temperature"),
             "top_p": default_parameters.get("top_p"),
         }
+        
+        # Add structured output support using tools
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Create a tool that returns the structured data
+                payload["tools"] = [{
+                    "name": "return_structured_data",
+                    "description": "Return the analysis results in the specified JSON format",
+                    "input_schema": schema
+                }]
+                payload["tool_choice"] = {"type": "tool", "name": "return_structured_data"}
+            except json.JSONDecodeError:
+                pass
         for image, filename in zip(call.base64_images, call.filenames):
             tag = (
                 ("Image " + str(call.base64_images.index(image) + 1))
@@ -757,7 +831,7 @@ class Anthropic(Provider):
 
     def _prepare_text_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "model": self.model,
             "messages": [
                 {"role": "user", "content": [{"type": "text", "text": call.message}]}
@@ -766,6 +840,24 @@ class Anthropic(Provider):
             "temperature": default_parameters.get("temperature"),
             "top_p": default_parameters.get("top_p"),
         }
+        
+        # Add structured output support using tools
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Create a tool that returns the structured data
+                payload["tools"] = [{
+                    "name": "return_structured_data",
+                    "description": "Return the analysis results in the specified JSON format",
+                    "input_schema": schema
+                }]
+                payload["tool_choice"] = {"type": "tool", "name": "return_structured_data"}
+            except json.JSONDecodeError:
+                pass
+                
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.api_key:
@@ -792,6 +884,10 @@ class Google(Provider):
         endpoint={"base_url": ENDPOINT_GOOGLE},
     ):
         super().__init__(hass, api_key, model, endpoint)
+
+    def supports_structured_output(self) -> bool:
+        """Return True if provider supports structured output."""
+        return True
 
     def _generate_headers(self) -> dict:
         return {"content-type": "application/json"}
@@ -829,6 +925,17 @@ class Google(Provider):
                 "topP": default_parameters.get("top_p"),
             },
         }
+        
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                payload["generationConfig"]["response_mime_type"] = "application/json"
+                payload["generationConfig"]["response_json_schema"] = schema
+            except json.JSONDecodeError:
+                pass
         for image, filename in zip(call.base64_images, call.filenames):
             tag = (
                 ("Image " + str(call.base64_images.index(image) + 1))
@@ -853,7 +960,7 @@ class Google(Provider):
 
     def _prepare_text_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "contents": [{"role": "user", "parts": [{"text": call.message + ":"}]}],
             "generationConfig": {
                 "maxOutputTokens": call.max_tokens,
@@ -861,6 +968,19 @@ class Google(Provider):
                 "topP": default_parameters.get("top_p"),
             },
         }
+        
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                payload["generationConfig"]["response_mime_type"] = "application/json"
+                payload["generationConfig"]["response_json_schema"] = schema
+            except json.JSONDecodeError:
+                pass
+                
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.api_key:
@@ -1050,6 +1170,10 @@ class Ollama(Provider):
     ):
         super().__init__(hass, api_key, model, endpoint)
 
+    def supports_structured_output(self) -> bool:
+        """Return True if provider supports structured output."""
+        return True
+
     async def _make_request(self, data: dict) -> str:
         https = self.endpoint.get("https")
         ip_address = self.endpoint.get("ip_address")
@@ -1076,6 +1200,15 @@ class Ollama(Provider):
                 "num_ctx": default_parameters.get("context_window"),
             },
         }
+        
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                payload["format"] = schema
+            except json.JSONDecodeError:
+                pass
 
         if call.use_memory:
             memory_content = call.memory._get_memory_images(memory_type="Ollama")
@@ -1100,7 +1233,7 @@ class Ollama(Provider):
 
     def _prepare_text_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "model": self.model,
             "messages": [{"role": "user", "content": call.message}],
             "stream": False,
@@ -1111,6 +1244,17 @@ class Ollama(Provider):
                 "num_ctx": default_parameters.get("context_window"),
             },
         }
+        
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                payload["format"] = schema
+            except json.JSONDecodeError:
+                pass
+                
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.endpoint.get("ip_address") or not self.endpoint.get("port"):

@@ -4,6 +4,7 @@ from .calendar import Timeline
 from .providers import Request
 from .memory import Memory
 from .media_handlers import MediaProcessor
+from .llm_logger import LLMLogger
 import re
 import os
 from datetime import timedelta
@@ -53,6 +54,7 @@ from .const import (
     INTERVAL,
     DURATION,
     MAX_FRAMES,
+    MIN_FRAMES_PER_CAMERA,
     INCLUDE_FILENAME,
     EXPOSE_IMAGES,
     GENERATE_TITLE,
@@ -70,6 +72,8 @@ from .const import (
     DEFAULT_OPENWEBUI_MODEL,
     CONF_CONTEXT_WINDOW,
     CONF_KEEP_ALIVE,
+    RESPONSE_FORMAT,
+    STRUCTURE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -562,6 +566,7 @@ class ServiceCallData:
         self.frigate_retry_attempts = int(data_call.data.get(FRIGATE_RETRY_ATTEMPTS, 2))
         self.frigate_retry_seconds = int(data_call.data.get(FRIGATE_RETRY_SECONDS, 1))
         self.max_frames = int(data_call.data.get(MAX_FRAMES, 3))
+        self.min_frames_per_camera = int(data_call.data.get(MIN_FRAMES_PER_CAMERA, 0))
         self.target_width = data_call.data.get(TARGET_WIDTH, 3840)
         self.temperature = float()
         self.max_tokens = int(data_call.data.get(MAXTOKENS, 100))
@@ -569,6 +574,8 @@ class ServiceCallData:
         self.expose_images = data_call.data.get(EXPOSE_IMAGES, False)
         self.generate_title = data_call.data.get(GENERATE_TITLE, False)
         self.sensor_entity = data_call.data.get(SENSOR_ENTITY, "")
+        self.response_format = data_call.data.get(RESPONSE_FORMAT, "text")
+        self.structure = data_call.data.get(STRUCTURE)
 
         # ------------ Remember ------------
         self.title = data_call.data.get("title")
@@ -723,6 +730,7 @@ def setup(hass, config):
             image_entities=call.image_entities,
             duration=call.duration,
             max_frames=call.max_frames,
+            min_frames_per_camera=call.min_frames_per_camera,
             target_width=call.target_width,
             include_filename=call.include_filename,
             expose_images=call.expose_images,
@@ -885,6 +893,17 @@ def setup(hass, config):
         DOMAIN,
         "remember",
         remember,
+    )
+
+    async def cleanup_llm_logs(data_call):
+        """Handle the service call to cleanup old LLM logs"""
+        days_to_keep = data_call.data.get("days_to_keep", 7)
+        llm_logger = LLMLogger(hass)
+        await llm_logger.cleanup_old_logs(days_to_keep)
+        _LOGGER.info(f"LLM log cleanup completed, keeping {days_to_keep} days")
+
+    hass.services.register(
+        DOMAIN, "cleanup_llm_logs", cleanup_llm_logs,
     )
 
     return True

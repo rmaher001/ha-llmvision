@@ -131,6 +131,64 @@ class MediaProcessor:
 
         return ssim
 
+    def _select_frames_with_minimums(self, camera_frames, max_frames, min_frames_per_camera):
+        """Select frames ensuring minimum representation per camera
+        
+        Args:
+            camera_frames (dict): Dict of camera_entity -> frames
+            max_frames (int): Maximum total frames to select
+            min_frames_per_camera (int): Minimum frames each camera should contribute
+            
+        Returns:
+            list: Selected frames as (frame_name, frame_data, ssim_score) tuples
+        """
+        if min_frames_per_camera == 0:
+            # Original behavior - no minimum per camera
+            frames_with_scores = []
+            for camera_entity in camera_frames:
+                for frame_name, frame_data in camera_frames[camera_entity].items():
+                    frames_with_scores.append(
+                        (frame_name, frame_data["frame_data"], frame_data["ssim_score"])
+                    )
+            frames_with_scores.sort(key=lambda x: x[2])
+            return frames_with_scores[:max_frames]
+        
+        # Build list of all frames with camera info
+        all_frames = []
+        for camera_entity in camera_frames:
+            for frame_name, frame_data in camera_frames[camera_entity].items():
+                all_frames.append(
+                    (frame_name, frame_data["frame_data"], frame_data["ssim_score"], camera_entity)
+                )
+        
+        # Sort by SSIM score (lower = more distinct)
+        all_frames.sort(key=lambda x: x[2])
+        
+        selected_frames = []
+        camera_frame_counts = {camera: 0 for camera in camera_frames.keys()}
+        
+        # First pass: try to satisfy minimum frames per camera
+        for frame_name, frame_data, ssim_score, camera_entity in all_frames:
+            if len(selected_frames) >= max_frames:
+                break
+                
+            if camera_frame_counts[camera_entity] < min_frames_per_camera:
+                selected_frames.append((frame_name, frame_data, ssim_score))
+                camera_frame_counts[camera_entity] += 1
+        
+        # Second pass: fill remaining slots with best frames
+        for frame_name, frame_data, ssim_score, camera_entity in all_frames:
+            if len(selected_frames) >= max_frames:
+                break
+                
+            # Skip if already selected
+            if (frame_name, frame_data, ssim_score) in selected_frames:
+                continue
+                
+            selected_frames.append((frame_name, frame_data, ssim_score))
+        
+        return selected_frames
+
     async def resize_image(
         self, target_width, image_path=None, image_data=None, img=None
     ):
@@ -229,6 +287,7 @@ class MediaProcessor:
         image_entities,
         duration,
         max_frames,
+        min_frames_per_camera,
         target_width,
         include_filename,
         expose_images,
@@ -353,19 +412,10 @@ class MediaProcessor:
             )
         )
 
-        # Extract frames and their SSIM scores
-        frames_with_scores = []
-        for frame in camera_frames:
-            for frame_name, frame_data in camera_frames[frame].items():
-                frames_with_scores.append(
-                    (frame_name, frame_data["frame_data"], frame_data["ssim_score"])
-                )
-
-        # Sort frames by SSIM score
-        frames_with_scores.sort(key=lambda x: x[2])
-
-        # Select frames with lowest ssim SIM scores
-        selected_frames = frames_with_scores[:max_frames]
+        # Select frames using minimum per camera logic
+        selected_frames = self._select_frames_with_minimums(
+            camera_frames, max_frames, min_frames_per_camera
+        )
         # Sort selected frames back into their original chronological order
         selected_frames.sort(key=lambda x: x[0])
 
@@ -732,6 +782,7 @@ class MediaProcessor:
         image_entities,
         duration,
         max_frames,
+        min_frames_per_camera,
         target_width,
         include_filename,
         expose_images,
@@ -741,6 +792,7 @@ class MediaProcessor:
                 image_entities=image_entities,
                 duration=duration,
                 max_frames=max_frames,
+                min_frames_per_camera=min_frames_per_camera,
                 target_width=target_width,
                 include_filename=include_filename,
                 expose_images=expose_images,
