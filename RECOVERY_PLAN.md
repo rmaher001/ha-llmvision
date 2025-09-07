@@ -64,8 +64,40 @@ Push to GitHub without triggering secret detection.
 ❌ Remove secret detection blocking GitHub pushes  
 ❌ Provide template for users to add their own test keys  
 
+## Integration Test Status (Updated)
+
+### Attempted Integration Tests
+After the clean recovery, attempted to create real integration tests for Phase 1 & 2:
+
+**What was attempted:**
+- Created TestHass class to provide real aiohttp sessions
+- Modified existing tests to remove mocking
+- Created `test_real_apis.py` for direct API testing
+- Added real API keys to environment
+
+**Current state:**
+❌ Integration tests are **NOT working**  
+❌ Tests still use MockCall objects instead of real service calls  
+❌ Direct API tests fail with 400 errors on all providers  
+❌ No validation that structured output actually works in Home Assistant  
+❌ Tests bypass the actual integration code entirely  
+
+**Issues identified:**
+1. Tests don't use the actual Home Assistant service call mechanism
+2. MockCall objects don't match real service call interface
+3. API requests are malformed (400 errors from OpenAI, Anthropic, Google)
+4. Tests are disconnected from the actual provider implementation
+5. No end-to-end validation of the integration
+
+### Known Issues
+- **Testing Gap**: No proof that Phase 1 & 2 implementation actually works
+- **Integration Testing**: Current tests don't test the Home Assistant integration
+- **API Validation**: No working tests against real APIs
+- **Service Call Testing**: No tests using actual Home Assistant service calls
+
 ## Result
 - Clean repository ready for public deployment
-- Complete implementation with all 12 hours of work preserved
-- Test suite that users can run by adding their own API keys
+- Complete implementation with all 12 hours of work preserved  
+- **⚠️ Integration testing incomplete - needs proper implementation**
+- Test structure exists but doesn't validate the integration works
 - No more GitHub push protection issues
