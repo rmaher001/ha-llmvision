@@ -1,6 +1,8 @@
 {
   "name": "LLM Vision",
-  "render_readme": true,
-  "content_in_root": false,
-  "zip_release": true
+  "type": "integration",
+  "hacs": "1.6.0",
+  "domains": ["llmvision"],
+  "iot_class": "Cloud Polling",
+  "homeassistant": "2024.1.0"
 }
