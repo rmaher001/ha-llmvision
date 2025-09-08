@@ -57,46 +57,47 @@ logger:
 - **stream_analyzer**: ✅ Multi-camera stream analysis with structured output  
 - **video_analyzer**: ✅ Video frame analysis with structured output
 
-**Phase 1 - Providers**: ✅ 8/8 providers implemented - ALL PROVIDERS COMPLETE:
+**Phase 1 - Providers**: ✅ 4/8 providers tested and working, 4/8 providers implemented but untested:
 
-#### **✅ Implemented Providers**
+#### **✅ Confirmed Working Providers** (Tested with real API calls)
 **Tier 1 - Strict Schema Compliance (100% reliability)**
-- **OpenAI**: JSON Schema with `strict: true` mode
-- **AzureOpenAI**: OpenAI compatibility mode (identical implementation)
+- **OpenAI**: JSON Schema with `strict: true` mode ✅ TESTED
+- **Anthropic**: Tool-based structured output approach ✅ TESTED
+- **Google**: `response_json_schema` in generationConfig ✅ TESTED
+- **AWS Bedrock**: Converse API with forced `toolChoice` ✅ TESTED
 
-**Tier 2 - High Reliability Native APIs**
-- **Anthropic**: Tool-based structured output approach
-- **Google**: `response_json_schema` in generationConfig  
-- **AWS Bedrock**: Converse API with forced `toolChoice` - tool-based approach
+#### **🚧 Implemented But Untested Providers** (Need API keys for testing)
+**Tier 2 - Expected High Reliability**
+- **AzureOpenAI**: OpenAI compatibility mode (identical implementation) 🔑 NEEDS TESTING
+- **Ollama**: `format` parameter for structured output 🔑 NEEDS TESTING
 
-**Tier 3 - Best-effort Compatibility**
-- **Groq**: OpenAI-compatible JSON schema mode with `strict: false`
-- **LocalAI**: Native `grammar_json_functions` parameter
-- **Ollama**: `format` parameter for structured output
+**Tier 3 - Best-effort Compatibility**  
+- **Groq**: OpenAI-compatible JSON schema mode with `strict: false` 🔑 NEEDS TESTING
+- **LocalAI**: Native `grammar_json_functions` parameter 🔑 NEEDS TESTING
 
-#### **Implementation Details**
-**Completed implementations for all 8 providers:**
-1. **OpenAI**: Native JSON Schema with strict validation ✅
-2. **Anthropic**: Tool-based with function calling ✅  
-3. **Google**: Native `response_json_schema` parameter ✅
-4. **Ollama**: Native `format` parameter ✅
-5. **AzureOpenAI**: OpenAI compatibility (no changes needed) ✅
-6. **Groq**: OpenAI-compatible JSON schema mode ✅
-7. **LocalAI**: Native `grammar_json_functions` parameter ✅  
-8. **AWS Bedrock**: Converse API with forced tool selection ✅
+#### **Implementation Status**
+**Code implemented for all 8 providers:**
+1. **OpenAI**: Native JSON Schema with strict validation ✅ WORKING
+2. **Anthropic**: Tool-based with function calling ✅ WORKING  
+3. **Google**: Native `response_json_schema` parameter ✅ WORKING
+4. **AWS Bedrock**: Converse API with forced tool selection ✅ WORKING
+5. **AzureOpenAI**: OpenAI compatibility (no changes needed) 📝 CODE ONLY
+6. **Groq**: OpenAI-compatible JSON schema mode 📝 CODE ONLY
+7. **LocalAI**: Native `grammar_json_functions` parameter 📝 CODE ONLY
+8. **Ollama**: Native `format` parameter 📝 CODE ONLY
 
 **Key Implementation Notes:**
 - **AWS Bedrock**: Required `toolChoice: {"tool": {"name": "return_structured_data"}}` to force tool usage
-- **Groq**: Uses `strict: false` due to API limitations
+- **Groq**: Uses `strict: false` due to API limitations  
 - **LocalAI**: Model-dependent - requires compatible model with grammar support
 - **Ollama**: Model-dependent - requires models with structured output capabilities
 
 **Testing Status**: 
-- ✅ **Implementation**: All 8 providers have structured output code implemented
-- 🧪 **Integration Tests**: Added for all 8 providers (requires API keys for testing)
-- ⏳ **API Keys Needed**: AzureOpenAI, Groq, LocalAI (AWS Bedrock already working)
-- ⏳ **Full Testing**: Pending API key collection for remaining 3 providers
-- ⏳ **Home Assistant Testing**: Manual testing in HA environment pending
+- ✅ **4/8 Providers Working**: OpenAI, Anthropic, Google, AWS Bedrock confirmed via real API tests
+- 📝 **4/8 Providers Coded**: AzureOpenAI, Groq, LocalAI, Ollama have implementations but need testing
+- 🔑 **API Keys Needed**: AzureOpenAI, Groq, LocalAI for integration testing
+- 🖥️ **Local Setup Needed**: Ollama server for testing
+- ⏳ **Full Testing**: Pending API key collection and local setup
 
 See `tests/README_STRUCTURED_OUTPUT_TESTING.md` for testing procedures.
 
@@ -187,18 +188,18 @@ ollama pull llava  # Pull vision model
 
 ### Running Tests
 ```bash
-# Individual provider tests - Original 4 providers (working)
+# Working providers - Confirmed with real API tests
 source ~/.zshrc && source tests/venv/bin/activate
-python tests/integration/test_structured_output_integration.py openai
-python tests/integration/test_structured_output_integration.py anthropic
-python tests/integration/test_structured_output_integration.py google
-python tests/integration/test_structured_output_integration.py ollama
+python tests/integration/test_structured_output_integration.py openai       # ✅ WORKING
+python tests/integration/test_structured_output_integration.py anthropic    # ✅ WORKING
+python tests/integration/test_structured_output_integration.py google       # ✅ WORKING  
+python tests/integration/test_structured_output_integration.py bedrock      # ✅ WORKING
 
-# Individual provider tests - New 4 providers (need API keys)
-python tests/integration/test_structured_output_integration.py azureopenai  # Needs AZURE_OPENAI_API_KEY
-python tests/integration/test_structured_output_integration.py groq         # Needs GROQ_API_KEY  
-python tests/integration/test_structured_output_integration.py localai      # Needs LocalAI server
-python tests/integration/test_structured_output_integration.py bedrock      # Working (AWS credentials)
+# Untested providers - Need API keys or local setup
+python tests/integration/test_structured_output_integration.py azureopenai  # 🔑 Needs AZURE_OPENAI_API_KEY
+python tests/integration/test_structured_output_integration.py groq         # 🔑 Needs GROQ_API_KEY  
+python tests/integration/test_structured_output_integration.py localai      # 🔑 Needs LocalAI server
+python tests/integration/test_structured_output_integration.py ollama       # 🖥️ Needs Ollama server
 
 # All providers
 source ~/.zshrc && ./tests/run_structured_output_test.sh
