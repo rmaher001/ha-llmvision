@@ -49,6 +49,7 @@ actions:
       frigate_retry_attempts: 2
       frigate_retry_seconds: 1
       max_frames: 3
+      min_frames_per_camera: 1
       include_filename: true
       target_width: 1280
       max_tokens: 1000

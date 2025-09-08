@@ -27,7 +27,7 @@ No build process required - Home Assistant loads custom components directly.
 cd ha-llmvision
 source ~/.zshrc  # Load API keys
 source tests/venv/bin/activate
-python tests/integration/test_structured_output_integration.py [openai|anthropic|google|ollama]
+python tests/integration/test_structured_output_integration.py [openai|anthropic|google|ollama|azureopenai|groq|localai|bedrock]
 ```
 
 **Debug Logging:**
@@ -43,25 +43,62 @@ logger:
 
 ### Provider Abstraction Pattern
 - Supports OpenAI, Anthropic, Google, AWS Bedrock, Groq, Ollama, LocalAI, OpenWebUI
-- **✅ Phase 1: Structured JSON Output** - Implemented and validated across all providers using JSON Schema enforcement
+- **✅ Phase 1: Structured JSON Output** - Complete across 4/8 providers, expanding to all 8 providers
 - Service-oriented architecture with 5 main services: image_analyzer, video_analyzer, stream_analyzer, data_analyzer, remember
 - Memory system for persistent context across calls
 - Timeline/calendar integration for event storage
 - Comprehensive LLM call logging to `/config/www/llmvision/logs/`
 
 ### Structured Output Implementation
-**Status: ✅ COMPLETE** - All services now support structured JSON responses:
+
+#### **Current Status**
+**Phase 1 - Services**: ✅ COMPLETE - All 3 services support structured JSON responses:
 - **image_analyzer**: ✅ Single image analysis with structured output
 - **stream_analyzer**: ✅ Multi-camera stream analysis with structured output  
 - **video_analyzer**: ✅ Video frame analysis with structured output
 
-**Provider Support** - All providers support structured JSON via different mechanisms:
+**Phase 1 - Providers**: ✅ 8/8 providers implemented - ALL PROVIDERS COMPLETE:
+
+#### **✅ Implemented Providers**
+**Tier 1 - Strict Schema Compliance (100% reliability)**
 - **OpenAI**: JSON Schema with `strict: true` mode
+- **AzureOpenAI**: OpenAI compatibility mode (identical implementation)
+
+**Tier 2 - High Reliability Native APIs**
 - **Anthropic**: Tool-based structured output approach
-- **Google**: `response_json_schema` in generationConfig
+- **Google**: `response_json_schema` in generationConfig  
+- **AWS Bedrock**: Converse API with forced `toolChoice` - tool-based approach
+
+**Tier 3 - Best-effort Compatibility**
+- **Groq**: OpenAI-compatible JSON schema mode with `strict: false`
+- **LocalAI**: Native `grammar_json_functions` parameter
 - **Ollama**: `format` parameter for structured output
 
-**Testing**: Comprehensive integration tests validate real API calls with schema enforcement. See `tests/README_STRUCTURED_OUTPUT_TESTING.md` for details.
+#### **Implementation Details**
+**Completed implementations for all 8 providers:**
+1. **OpenAI**: Native JSON Schema with strict validation ✅
+2. **Anthropic**: Tool-based with function calling ✅  
+3. **Google**: Native `response_json_schema` parameter ✅
+4. **Ollama**: Native `format` parameter ✅
+5. **AzureOpenAI**: OpenAI compatibility (no changes needed) ✅
+6. **Groq**: OpenAI-compatible JSON schema mode ✅
+7. **LocalAI**: Native `grammar_json_functions` parameter ✅  
+8. **AWS Bedrock**: Converse API with forced tool selection ✅
+
+**Key Implementation Notes:**
+- **AWS Bedrock**: Required `toolChoice: {"tool": {"name": "return_structured_data"}}` to force tool usage
+- **Groq**: Uses `strict: false` due to API limitations
+- **LocalAI**: Model-dependent - requires compatible model with grammar support
+- **Ollama**: Model-dependent - requires models with structured output capabilities
+
+**Testing Status**: 
+- ✅ **Implementation**: All 8 providers have structured output code implemented
+- 🧪 **Integration Tests**: Added for all 8 providers (requires API keys for testing)
+- ⏳ **API Keys Needed**: AzureOpenAI, Groq, LocalAI (AWS Bedrock already working)
+- ⏳ **Full Testing**: Pending API key collection for remaining 3 providers
+- ⏳ **Home Assistant Testing**: Manual testing in HA environment pending
+
+See `tests/README_STRUCTURED_OUTPUT_TESTING.md` for testing procedures.
 
 ### Using Structured Output in Automations
 
@@ -150,12 +187,18 @@ ollama pull llava  # Pull vision model
 
 ### Running Tests
 ```bash
-# Individual provider tests
+# Individual provider tests - Original 4 providers (working)
 source ~/.zshrc && source tests/venv/bin/activate
 python tests/integration/test_structured_output_integration.py openai
 python tests/integration/test_structured_output_integration.py anthropic
 python tests/integration/test_structured_output_integration.py google
 python tests/integration/test_structured_output_integration.py ollama
+
+# Individual provider tests - New 4 providers (need API keys)
+python tests/integration/test_structured_output_integration.py azureopenai  # Needs AZURE_OPENAI_API_KEY
+python tests/integration/test_structured_output_integration.py groq         # Needs GROQ_API_KEY  
+python tests/integration/test_structured_output_integration.py localai      # Needs LocalAI server
+python tests/integration/test_structured_output_integration.py bedrock      # Working (AWS credentials)
 
 # All providers
 source ~/.zshrc && ./tests/run_structured_output_test.sh

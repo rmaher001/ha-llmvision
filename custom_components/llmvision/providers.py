@@ -743,6 +743,10 @@ class AzureOpenAI(Provider):
         }
         await self._post(url=endpoint, headers=headers, data=data)
 
+    def supports_structured_output(self) -> bool:
+        """AzureOpenAI supports structured output via JSON Schema (OpenAI-compatible)."""
+        return True
+
 
 class Anthropic(Provider):
     def __init__(self, hass: object, api_key: str, model: str):
@@ -1050,11 +1054,29 @@ class Groq(Provider):
             0, {"role": "user", "content": "System Prompt:" + system_prompt}
         )
 
+        # Add structured output format if requested
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": False  # Groq doesn't support strict mode like OpenAI
+                    }
+                }
+            except json.JSONDecodeError:
+                # If schema is invalid, don't add structured output
+                pass
+
         return payload
 
     def _prepare_text_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "messages": [
                 {"role": "user", "content": [{"type": "text", "text": call.message}]}
             ],
@@ -1063,6 +1085,26 @@ class Groq(Provider):
             "temperature": default_parameters.get("temperature"),
             "top_p": default_parameters.get("top_p"),
         }
+
+        # Add structured output format if requested
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": False  # Groq doesn't support strict mode like OpenAI
+                    }
+                }
+            except json.JSONDecodeError:
+                # If schema is invalid, don't add structured output
+                pass
+
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.api_key:
@@ -1073,6 +1115,10 @@ class Groq(Provider):
             "messages": [{"role": "user", "content": "Hi"}],
         }
         await self._post(url=ENDPOINT_GROQ, headers=headers, data=data)
+
+    def supports_structured_output(self) -> bool:
+        """Groq supports structured output via OpenAI-compatible JSON schema."""
+        return True
 
 
 class LocalAI(Provider):
@@ -1135,11 +1181,20 @@ class LocalAI(Provider):
                     0, {"role": "system", "content": system_prompt}
                 )
 
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                payload["grammar_json_functions"] = [schema]
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
+
         return payload
 
     def _prepare_text_data(self, call: dict) -> dict:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "model": self.model,
             "messages": [
                 {"role": "user", "content": [{"type": "text", "text": call.message}]}
@@ -1148,6 +1203,17 @@ class LocalAI(Provider):
             "temperature": default_parameters.get("temperature"),
             "top_p": default_parameters.get("top_p"),
         }
+
+        # Add structured output support
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                payload["grammar_json_functions"] = [schema]
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
+
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.endpoint.get("ip_address") or not self.endpoint.get("port"):
@@ -1163,6 +1229,10 @@ class LocalAI(Provider):
                 raise ServiceValidationError("handshake_failed")
         except Exception:
             raise ServiceValidationError("handshake_failed")
+
+    def supports_structured_output(self) -> bool:
+        """LocalAI supports structured output via grammar_json_functions parameter."""
+        return True
 
 
 class Ollama(Provider):
@@ -1290,11 +1360,20 @@ class AWSBedrock(Provider):
         aws_secret_access_key: str,
         aws_region_name: str,
         model: str,
+        api_key: str = None,
     ):
-        super().__init__(hass=hass, api_key="", model=model)
-        self.aws_access_key_id = aws_access_key_id
-        self.aws_secret_access_key = aws_secret_access_key
-        self.aws_region = aws_region_name
+        # If api_key is provided, use Bearer token authentication
+        # Otherwise, use traditional IAM credentials
+        if api_key:
+            super().__init__(hass=hass, api_key=api_key, model=model)
+            self.aws_region = aws_region_name
+            self.use_bearer_token = True
+        else:
+            super().__init__(hass=hass, api_key="", model=model)
+            self.aws_access_key_id = aws_access_key_id
+            self.aws_secret_access_key = aws_secret_access_key
+            self.aws_region = aws_region_name
+            self.use_bearer_token = False
 
     def _generate_headers(self) -> dict:
         return {
@@ -1303,9 +1382,40 @@ class AWSBedrock(Provider):
         }
 
     async def _make_request(self, data: dict) -> str:
-        response = await self.invoke_bedrock(model=self.model, data=data)
-        response_text = response.get("message").get("content")[0].get("text")
-        return response_text
+        import json
+        
+        if self.use_bearer_token:
+            # Use Bearer token with direct HTTP API
+            headers = self._generate_headers()
+            endpoint = f"https://bedrock-runtime.{self.aws_region}.amazonaws.com/model/{self.model}/converse"
+            response = await self._post(url=endpoint, headers=headers, data=data)
+            
+            # Handle tool use response for structured output
+            message_content = response.get("output").get("message").get("content")
+            if message_content and len(message_content) > 0:
+                content = message_content[0]
+                if content.get("toolUse"):
+                    # Extract the structured data from tool use
+                    return json.dumps(content.get("toolUse").get("input", {}))
+                else:
+                    # Regular text response
+                    return content.get("text", "")
+            return ""
+        else:
+            # Use traditional IAM credentials with boto3
+            response = await self.invoke_bedrock(model=self.model, data=data)
+            
+            # Handle tool use response for structured output
+            message_content = response.get("message").get("content")
+            if message_content and len(message_content) > 0:
+                content = message_content[0]
+                if content.get("toolUse"):
+                    # Extract the structured data from tool use
+                    return json.dumps(content.get("toolUse").get("input", {}))
+                else:
+                    # Regular text response
+                    return content.get("text", "")
+            return ""
 
     async def invoke_bedrock(self, model: str, data: dict) -> dict:
         """Post data to url and return response data"""
@@ -1324,13 +1434,22 @@ class AWSBedrock(Provider):
             )
 
             # Invoke the model with the response stream
+            converse_kwargs = {
+                "modelId": model,
+                "messages": data.get("messages"),
+                "inferenceConfig": data.get("inferenceConfig"),
+            }
+            
+            # Add toolConfig if present (for structured output)
+            if "toolConfig" in data:
+                converse_kwargs["toolConfig"] = data.get("toolConfig")
+                
+            # Add system prompt if present (for structured output)
+            if "system" in data:
+                converse_kwargs["system"] = data.get("system")
+            
             response = await self.hass.async_add_executor_job(
-                partial(
-                    client.converse,
-                    modelId=model,
-                    messages=data.get("messages"),
-                    inferenceConfig=data.get("inferenceConfig"),
-                )
+                partial(client.converse, **converse_kwargs)
             )
             _LOGGER.debug(f"AWS Bedrock call Response: {response}")
 
@@ -1385,7 +1504,12 @@ class AWSBedrock(Provider):
                     }
                 }
             )
-        payload["messages"][0]["content"].append({"text": call.message})
+        # Add structured output instruction if needed
+        message_text = call.message
+        if call.response_format == "json" and call.structure:
+            message_text += "\n\nIMPORTANT: You MUST call the return_structured_data tool to provide your response in the specified JSON format. Do not provide a regular text response."
+        
+        payload["messages"][0]["content"].append({"text": message_text})
 
         if call.use_memory:
             memory_content = call.memory._get_memory_images(memory_type="AWS")
@@ -1399,16 +1523,75 @@ class AWSBedrock(Provider):
                     0, {"role": "user", "content": [{"text": system_prompt}]}
                 )
 
+        # Add structured output support using tool definitions
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Create a tool that returns the structured data
+                payload["toolConfig"] = {
+                    "tools": [{
+                        "toolSpec": {
+                            "name": "return_structured_data",
+                            "description": "Return the analysis results in the specified JSON format",
+                            "inputSchema": {
+                                "json": schema
+                            }
+                        }
+                    }],
+                    "toolChoice": {
+                        "tool": {
+                            "name": "return_structured_data"
+                        }
+                    }
+                }
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
+
         return payload
 
     def _prepare_text_data(self, call: dict) -> list:
-        return {
-            "messages": [{"role": "user", "content": [{"text": call.message}]}],
+        # Add structured output instruction if needed
+        message_text = call.message
+        if call.response_format == "json" and call.structure:
+            message_text += "\n\nIMPORTANT: You MUST call the return_structured_data tool to provide your response in the specified JSON format. Do not provide a regular text response."
+        
+        payload = {
+            "messages": [{"role": "user", "content": [{"text": message_text}]}],
             "inferenceConfig": {
                 "maxTokens": call.max_tokens,
                 "temperature": call.temperature,
             },
         }
+
+        # Add structured output support using tool definitions
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Create a tool that returns the structured data
+                payload["toolConfig"] = {
+                    "tools": [{
+                        "toolSpec": {
+                            "name": "return_structured_data",
+                            "description": "Return the analysis results in the specified JSON format",
+                            "inputSchema": {
+                                "json": schema
+                            }
+                        }
+                    }],
+                    "toolChoice": {
+                        "tool": {
+                            "name": "return_structured_data"
+                        }
+                    }
+                }
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
+
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         data = {
@@ -1416,3 +1599,7 @@ class AWSBedrock(Provider):
             "inferenceConfig": {"maxTokens": 10, "temperature": 0.5},
         }
         await self.invoke_bedrock(model=DEFAULT_AWS_MODEL, data=data)
+
+    def supports_structured_output(self) -> bool:
+        """AWS Bedrock supports structured output via tool definitions in Converse API."""
+        return True

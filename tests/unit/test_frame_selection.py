@@ -20,7 +20,9 @@ class MockMediaProcessor:
             min_frames_per_camera (int): Minimum frames each camera should contribute
             
         Returns:
-            list: Selected frames as (frame_name, frame_data, ssim_score) tuples
+            tuple: (selected_frames, camera_frames_count) where:
+                - selected_frames: list of (frame_name, frame_data, ssim_score) tuples
+                - camera_frames_count: dict of camera_entity -> count
         """
         if min_frames_per_camera == 0:
             # Original behavior - no minimum per camera
@@ -31,7 +33,15 @@ class MockMediaProcessor:
                         (frame_name, frame_data["frame_data"], frame_data["ssim_score"])
                     )
             frames_with_scores.sort(key=lambda x: x[2])
-            return frames_with_scores[:max_frames]
+            selected_frames = frames_with_scores[:max_frames]
+            
+            # Calculate camera distribution
+            camera_frames_count = {}
+            for frame_name, _, _ in selected_frames:
+                camera_name = frame_name.split(' frame ')[0]
+                camera_frames_count[camera_name] = camera_frames_count.get(camera_name, 0) + 1
+            
+            return selected_frames, camera_frames_count
         
         # Build list of all frames with camera info
         all_frames = []
@@ -67,7 +77,7 @@ class MockMediaProcessor:
                 
             selected_frames.append((frame_name, frame_data, ssim_score))
         
-        return selected_frames
+        return selected_frames, camera_frame_counts
 
 
 @pytest.mark.unit
@@ -101,7 +111,7 @@ class TestFrameSelection(unittest.TestCase):
         """Test that min_frames_per_camera=0 maintains original behavior with single camera"""
         camera_frames = {"camera.front": self.mock_camera_frames["camera.front"]}
         
-        selected = self.processor._select_frames_with_minimums(camera_frames, max_frames=2, min_frames_per_camera=0)
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(camera_frames, max_frames=2, min_frames_per_camera=0)
         
         # Should select 2 frames with lowest SSIM scores
         self.assertEqual(len(selected), 2)
@@ -114,7 +124,7 @@ class TestFrameSelection(unittest.TestCase):
 
     def test_backward_compatibility_multiple_cameras(self):
         """Test that min_frames_per_camera=0 maintains original behavior with multiple cameras"""
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             self.mock_camera_frames, max_frames=3, min_frames_per_camera=0
         )
         
@@ -132,7 +142,7 @@ class TestFrameSelection(unittest.TestCase):
     def test_minimum_frames_exact_match(self):
         """Test min_frames_per_camera when total minimums exactly equals max_frames"""
         # 3 cameras, min_frames=1 each, max_frames=3 (exact match)
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             self.mock_camera_frames, max_frames=3, min_frames_per_camera=1
         )
         
@@ -164,7 +174,7 @@ class TestFrameSelection(unittest.TestCase):
             "camera.side": self.mock_camera_frames["camera.side"]
         }
         
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             camera_frames, max_frames=4, min_frames_per_camera=1
         )
         
@@ -186,7 +196,7 @@ class TestFrameSelection(unittest.TestCase):
     def test_edge_case_minimums_exceed_max_frames(self):
         """Test best-effort distribution when min_frames × num_cameras > max_frames"""
         # 3 cameras, min_frames=2 each, max_frames=4 (need 6 but only have 4)
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             self.mock_camera_frames, max_frames=4, min_frames_per_camera=2
         )
         
@@ -214,7 +224,7 @@ class TestFrameSelection(unittest.TestCase):
         """Test single camera with min_frames_per_camera > 0"""
         camera_frames = {"camera.front": self.mock_camera_frames["camera.front"]}
         
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             camera_frames, max_frames=2, min_frames_per_camera=1
         )
         
@@ -226,7 +236,7 @@ class TestFrameSelection(unittest.TestCase):
 
     def test_empty_camera_frames(self):
         """Test with empty camera_frames input"""
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             {}, max_frames=3, min_frames_per_camera=1
         )
         
@@ -239,7 +249,7 @@ class TestFrameSelection(unittest.TestCase):
             "camera.empty": {}  # Empty camera
         }
         
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             camera_frames, max_frames=2, min_frames_per_camera=1
         )
         
@@ -251,7 +261,7 @@ class TestFrameSelection(unittest.TestCase):
 
     def test_ssim_ordering_preservation(self):
         """Test that SSIM ordering is properly maintained"""
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             self.mock_camera_frames, max_frames=5, min_frames_per_camera=1
         )
         
@@ -266,28 +276,28 @@ class TestFrameSelection(unittest.TestCase):
     def test_fair_distribution_algorithm(self):
         """Test the two-pass fair distribution algorithm"""
         # 3 cameras, min_frames=1, max_frames=5
-        selected = self.processor._select_frames_with_minimums(
+        selected, camera_frames_count = self.processor._select_frames_with_minimums(
             self.mock_camera_frames, max_frames=5, min_frames_per_camera=1
         )
         
         self.assertEqual(len(selected), 5)
         
         # Count frames per camera
-        camera_counts = {"front": 0, "side": 0, "back": 0}
+        camera_frames_count = {"front": 0, "side": 0, "back": 0}
         for frame_name, _, _ in selected:
             if "front" in frame_name:
-                camera_counts["front"] += 1
+                camera_frames_count["front"] += 1
             elif "side" in frame_name:
-                camera_counts["side"] += 1
+                camera_frames_count["side"] += 1
             elif "back" in frame_name:
-                camera_counts["back"] += 1
+                camera_frames_count["back"] += 1
         
         # Each camera should have at least 1 frame (first pass)
-        for camera, count in camera_counts.items():
+        for camera, count in camera_frames_count.items():
             self.assertGreaterEqual(count, 1)
         
         # Total should be 5
-        self.assertEqual(sum(camera_counts.values()), 5)
+        self.assertEqual(sum(camera_frames_count.values()), 5)
         
         # Should be ordered by SSIM scores
         ssim_scores = [frame[2] for frame in selected]

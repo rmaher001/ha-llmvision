@@ -140,7 +140,9 @@ class MediaProcessor:
             min_frames_per_camera (int): Minimum frames each camera should contribute
             
         Returns:
-            list: Selected frames as (frame_name, frame_data, ssim_score) tuples
+            tuple: (selected_frames, camera_frames_count) where:
+                - selected_frames: list of (frame_name, frame_data, ssim_score) tuples
+                - camera_frames_count: dict of camera_entity -> count
         """
         if min_frames_per_camera == 0:
             # Original behavior - no minimum per camera
@@ -151,7 +153,16 @@ class MediaProcessor:
                         (frame_name, frame_data["frame_data"], frame_data["ssim_score"])
                     )
             frames_with_scores.sort(key=lambda x: x[2])
-            return frames_with_scores[:max_frames]
+            selected_frames = frames_with_scores[:max_frames]
+            
+            # Calculate camera distribution for logging
+            camera_frames_count = {}
+            for frame_name, _, _ in selected_frames:
+                # Extract camera name from frame_name (format: "camera_name frame N")
+                camera_name = frame_name.rsplit(' frame ', 1)[0]
+                camera_frames_count[camera_name] = camera_frames_count.get(camera_name, 0) + 1
+                
+            return selected_frames, camera_frames_count
         
         # Build list of all frames with camera info
         all_frames = []
@@ -187,7 +198,7 @@ class MediaProcessor:
                 
             selected_frames.append((frame_name, frame_data, ssim_score))
         
-        return selected_frames
+        return selected_frames, camera_frame_counts
 
     async def resize_image(
         self, target_width, image_path=None, image_data=None, img=None
@@ -413,9 +424,14 @@ class MediaProcessor:
         )
 
         # Select frames using minimum per camera logic
-        selected_frames = self._select_frames_with_minimums(
+        selected_frames, camera_frames_count = self._select_frames_with_minimums(
             camera_frames, max_frames, min_frames_per_camera
         )
+        
+        # Log frame distribution per camera
+        frames_per_camera = ', '.join([f"{cam}: {count}" for cam, count in camera_frames_count.items()])
+        _LOGGER.info(f"Selected {len(selected_frames)} frames from {len(camera_frames_count)} cameras - {frames_per_camera}")
+        
         # Sort selected frames back into their original chronological order
         selected_frames.sort(key=lambda x: x[0])
 
