@@ -320,6 +320,11 @@ class Request:
                 return await self.call(call, _is_fallback_retry=True)
             else:
                 response_text = "Couldn't generate content. Check logs for details."
+        
+        # Skip title generation for structured JSON responses  
+        if call.response_format == "json" and provider_instance.supports_structured_output():
+            call.generate_title = False
+            
         gen_title = None
         try:
             if call.generate_title:
@@ -793,8 +798,8 @@ class Anthropic(Provider):
                     "input_schema": schema
                 }]
                 payload["tool_choice"] = {"type": "tool", "name": "return_structured_data"}
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
         for image, filename in zip(call.base64_images, call.filenames):
             tag = (
                 ("Image " + str(call.base64_images.index(image) + 1))
@@ -853,8 +858,8 @@ class Anthropic(Provider):
                     "input_schema": schema
                 }]
                 payload["tool_choice"] = {"type": "tool", "name": "return_structured_data"}
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
                 
         return payload
 
@@ -934,8 +939,8 @@ class Google(Provider):
                 
                 payload["generationConfig"]["response_mime_type"] = "application/json"
                 payload["generationConfig"]["response_json_schema"] = schema
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
         for image, filename in zip(call.base64_images, call.filenames):
             tag = (
                 ("Image " + str(call.base64_images.index(image) + 1))
@@ -977,8 +982,8 @@ class Google(Provider):
                 
                 payload["generationConfig"]["response_mime_type"] = "application/json"
                 payload["generationConfig"]["response_json_schema"] = schema
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
                 
         return payload
 
@@ -1207,8 +1212,8 @@ class Ollama(Provider):
             try:
                 schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
                 payload["format"] = schema
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
 
         if call.use_memory:
             memory_content = call.memory._get_memory_images(memory_type="Ollama")
@@ -1251,8 +1256,8 @@ class Ollama(Provider):
             try:
                 schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
                 payload["format"] = schema
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
                 
         return payload
 

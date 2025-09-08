@@ -1,0 +1,1003 @@
+2025-09-07 23:32:33.844 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration tapo_control which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-09-07 23:32:33.845 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration llmvision which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-09-07 23:32:33.846 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration dahua which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-09-07 23:32:34.151 INFO (MainThread) [homeassistant.setup] Setting up http
+2025-09-07 23:32:34.153 INFO (MainThread) [homeassistant.setup] Setting up system_log
+2025-09-07 23:32:34.154 WARNING (MainThread) [aiohttp_fast_zlib] zlib_ng and isal are not available, falling back to zlib, performance will be degraded.
+2025-09-07 23:32:34.165 INFO (MainThread) [homeassistant.setup] Setup of domain logger took 0.01 seconds
+2025-09-07 23:32:34.165 INFO (MainThread) [homeassistant.setup] Setup of domain http took 0.01 seconds
+2025-09-07 23:32:34.165 INFO (MainThread) [homeassistant.setup] Setup of domain system_log took 0.01 seconds
+2025-09-07 23:32:34.165 INFO (MainThread) [homeassistant.setup] Setting up websocket_api
+2025-09-07 23:32:34.166 INFO (MainThread) [homeassistant.setup] Setup of domain websocket_api took 0.00 seconds
+2025-09-07 23:32:34.166 INFO (MainThread) [homeassistant.setup] Setting up network
+2025-09-07 23:32:34.167 INFO (MainThread) [homeassistant.setup] Setup of domain network took 0.00 seconds
+2025-09-07 23:32:34.167 INFO (MainThread) [homeassistant.bootstrap] Setting up stage frontend: {'frontend'}; already set up: {}
+Dependencies: {'config', 'diagnostics', 'lovelace', 'auth', 'api', 'repairs', 'file_upload', 'search', 'device_automation', 'onboarding'}; already set up: {'system_log', 'websocket_api', 'http'}
+2025-09-07 23:32:34.167 INFO (MainThread) [homeassistant.setup] Setting up config
+2025-09-07 23:32:34.168 INFO (MainThread) [homeassistant.setup] Setup of domain config took 0.00 seconds
+2025-09-07 23:32:34.168 INFO (MainThread) [homeassistant.setup] Setting up diagnostics
+2025-09-07 23:32:34.169 INFO (MainThread) [homeassistant.setup] Setup of domain diagnostics took 0.00 seconds
+2025-09-07 23:32:34.169 INFO (MainThread) [homeassistant.setup] Setting up auth
+2025-09-07 23:32:34.169 INFO (MainThread) [homeassistant.setup] Setup of domain auth took 0.00 seconds
+2025-09-07 23:32:34.169 INFO (MainThread) [homeassistant.setup] Setting up onboarding
+2025-09-07 23:32:34.170 INFO (MainThread) [homeassistant.setup] Setup of domain onboarding took 0.00 seconds
+2025-09-07 23:32:34.170 INFO (MainThread) [homeassistant.setup] Setting up lovelace
+2025-09-07 23:32:34.171 INFO (MainThread) [homeassistant.setup] Setting up api
+2025-09-07 23:32:34.171 INFO (MainThread) [homeassistant.setup] Setup of domain api took 0.00 seconds
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setting up repairs
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setup of domain repairs took 0.00 seconds
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setting up file_upload
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setup of domain file_upload took 0.00 seconds
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setting up search
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setup of domain search took 0.00 seconds
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setting up device_automation
+2025-09-07 23:32:34.172 INFO (MainThread) [homeassistant.setup] Setup of domain device_automation took 0.00 seconds
+2025-09-07 23:32:34.173 INFO (MainThread) [homeassistant.setup] Setup of domain lovelace took 0.00 seconds
+2025-09-07 23:32:34.173 INFO (MainThread) [homeassistant.setup] Setting up frontend
+2025-09-07 23:32:34.176 INFO (MainThread) [homeassistant.setup] Setup of domain frontend took 0.00 seconds
+2025-09-07 23:32:34.178 INFO (MainThread) [homeassistant.bootstrap] Setting up stage recorder: {'recorder'}; already set up: {}
+Dependencies: {}; already set up: {}
+2025-09-07 23:32:34.178 INFO (MainThread) [homeassistant.setup] Setting up recorder
+2025-09-07 23:32:34.180 INFO (MainThread) [asyncio] <Server sockets=(<asyncio.TransportSocket fd=8, family=10, type=1, proto=6, laddr=('::', 8123, 0, 0)>, <asyncio.TransportSocket fd=10, family=2, type=1, proto=6, laddr=('0.0.0.0', 8123)>)> is serving
+2025-09-07 23:32:34.180 INFO (MainThread) [homeassistant.components.http] Now listening on port 8123
+2025-09-07 23:32:34.180 INFO (MainThread) [homeassistant.setup] Setup of domain http took 0.00 seconds
+2025-09-07 23:32:34.191 INFO (MainThread) [homeassistant.setup] Setup of domain recorder took 0.01 seconds
+2025-09-07 23:32:34.191 INFO (MainThread) [homeassistant.bootstrap] Nothing to set up in stage debugger: {'debugpy'}
+2025-09-07 23:32:34.191 INFO (MainThread) [homeassistant.bootstrap] Setting up stage zeroconf: {'zeroconf'}; already set up: {}
+Dependencies: {}; already set up: {'network', 'api', 'websocket_api', 'http'}
+2025-09-07 23:32:34.191 INFO (MainThread) [homeassistant.setup] Setting up zeroconf
+2025-09-07 23:32:34.194 INFO (MainThread) [homeassistant.components.zeroconf] Starting Zeroconf broadcast
+2025-09-07 23:32:34.194 INFO (MainThread) [homeassistant.setup] Setup of domain zeroconf took 0.00 seconds
+2025-09-07 23:32:34.194 INFO (MainThread) [homeassistant.bootstrap] Setting up stage 1: {'dhcp', 'usb', 'ssdp'}; already set up: {}
+Dependencies: {}; already set up: {'websocket_api', 'http', 'network'}
+2025-09-07 23:32:34.228 INFO (MainThread) [homeassistant.setup] Setting up dhcp
+2025-09-07 23:32:34.229 INFO (MainThread) [homeassistant.setup] Setup of domain dhcp took 0.00 seconds
+2025-09-07 23:32:34.233 INFO (MainThread) [homeassistant.setup] Setting up usb
+2025-09-07 23:32:34.234 INFO (MainThread) [homeassistant.setup] Setup of domain usb took 0.00 seconds
+2025-09-07 23:32:34.244 INFO (MainThread) [homeassistant.setup] Setting up ssdp
+2025-09-07 23:32:34.247 INFO (MainThread) [homeassistant.setup] Setup of domain ssdp took 0.00 seconds
+2025-09-07 23:32:34.247 INFO (MainThread) [homeassistant.bootstrap] Setting up stage 2: {'input_boolean', 'timer', 'my', 'mobile_app', 'dahua', 'automation', 'logbook', 'input_text', 'tapo_control', 'input_select', 'backup', 'homeassistant_alerts', 'input_datetime', 'ffmpeg', 'sun', 'script', 'zone', 'schedule', 'analytics', 'counter', 'shopping_list', 'llmvision', 'tag', 'stream', 'input_button', 'media_source', 'radio_browser', 'energy', 'hardware', 'reolink', 'google_translate', 'application_credentials', 'input_number', 'history', 'person', 'system_health', 'scene'}; already set up: {'logger', 'config', 'zeroconf', 'usb', 'dhcp', 'ssdp', 'frontend', 'network'}
+Dependencies: {'image_upload', 'trace', 'webhook', 'intent', 'blueprint', 'onvif'}; already set up: {'config', 'diagnostics', 'onboarding', 'auth', 'api', 'lovelace', 'repairs', 'http', 'file_upload', 'system_log', 'websocket_api', 'search', 'device_automation', 'frontend', 'recorder', 'network'}
+2025-09-07 23:32:34.247 INFO (MainThread) [homeassistant.setup] Setting up scene
+2025-09-07 23:32:34.248 INFO (MainThread) [homeassistant.components.scene] Setting up homeassistant.scene
+2025-09-07 23:32:34.248 INFO (MainThread) [homeassistant.setup] Setup of domain scene took 0.00 seconds
+2025-09-07 23:32:34.250 INFO (MainThread) [homeassistant.setup] Setting up image_upload
+2025-09-07 23:32:34.251 INFO (MainThread) [homeassistant.setup] Setup of domain image_upload took 0.00 seconds
+2025-09-07 23:32:34.251 INFO (MainThread) [homeassistant.setup] Setting up zone
+2025-09-07 23:32:34.252 INFO (MainThread) [homeassistant.setup] Setup of domain zone took 0.00 seconds
+2025-09-07 23:32:34.253 INFO (MainThread) [homeassistant.setup] Setting up person
+2025-09-07 23:32:34.254 INFO (MainThread) [homeassistant.setup] Setting up webhook
+2025-09-07 23:32:34.254 INFO (MainThread) [homeassistant.setup] Setup of domain webhook took 0.00 seconds
+2025-09-07 23:32:34.255 INFO (MainThread) [homeassistant.setup] Setting up blueprint
+2025-09-07 23:32:34.255 INFO (MainThread) [homeassistant.setup] Setup of domain blueprint took 0.00 seconds
+2025-09-07 23:32:34.255 INFO (MainThread) [homeassistant.setup] Setting up trace
+2025-09-07 23:32:34.255 INFO (MainThread) [homeassistant.setup] Setup of domain trace took 0.00 seconds
+2025-09-07 23:32:34.256 INFO (MainThread) [homeassistant.setup] Setting up automation
+2025-09-07 23:32:34.258 INFO (MainThread) [homeassistant.setup] Setup of domain automation took 0.00 seconds
+2025-09-07 23:32:34.258 INFO (MainThread) [homeassistant.setup] Setting up logbook
+2025-09-07 23:32:34.259 INFO (MainThread) [homeassistant.setup] Setup of domain logbook took 0.00 seconds
+2025-09-07 23:32:34.261 INFO (MainThread) [homeassistant.setup] Setting up backup
+2025-09-07 23:32:34.267 INFO (MainThread) [homeassistant.setup] Setting up script
+2025-09-07 23:32:34.268 INFO (MainThread) [homeassistant.setup] Setup of domain script took 0.00 seconds
+2025-09-07 23:32:34.270 INFO (MainThread) [homeassistant.setup] Setting up history
+2025-09-07 23:32:34.270 INFO (MainThread) [homeassistant.setup] Setup of domain history took 0.00 seconds
+2025-09-07 23:32:34.271 INFO (MainThread) [homeassistant.setup] Setting up input_button
+2025-09-07 23:32:34.272 INFO (MainThread) [homeassistant.setup] Setup of domain input_button took 0.00 seconds
+2025-09-07 23:32:34.274 INFO (MainThread) [homeassistant.setup] Setting up input_number
+2025-09-07 23:32:34.275 INFO (MainThread) [homeassistant.setup] Setup of domain input_number took 0.00 seconds
+2025-09-07 23:32:34.275 INFO (MainThread) [homeassistant.setup] Setting up system_health
+2025-09-07 23:32:34.276 INFO (MainThread) [homeassistant.setup] Setup of domain system_health took 0.00 seconds
+2025-09-07 23:32:34.277 INFO (MainThread) [homeassistant.setup] Setting up input_boolean
+2025-09-07 23:32:34.278 INFO (MainThread) [homeassistant.setup] Setup of domain input_boolean took 0.00 seconds
+2025-09-07 23:32:34.278 INFO (MainThread) [homeassistant.setup] Setting up timer
+2025-09-07 23:32:34.279 INFO (MainThread) [homeassistant.setup] Setup of domain timer took 0.00 seconds
+2025-09-07 23:32:34.279 INFO (MainThread) [homeassistant.setup] Setting up my
+2025-09-07 23:32:34.279 INFO (MainThread) [homeassistant.setup] Setup of domain my took 0.00 seconds
+2025-09-07 23:32:34.280 INFO (MainThread) [homeassistant.setup] Setup of domain backup took 0.02 seconds
+2025-09-07 23:32:34.281 INFO (MainThread) [homeassistant.setup] Setting up intent
+2025-09-07 23:32:34.282 INFO (MainThread) [homeassistant.setup] Setup of domain intent took 0.00 seconds
+2025-09-07 23:32:34.283 INFO (MainThread) [homeassistant.setup] Setup of domain person took 0.03 seconds
+2025-09-07 23:32:34.283 INFO (MainThread) [homeassistant.setup] Setting up tag
+2025-09-07 23:32:34.284 INFO (MainThread) [homeassistant.setup] Setup of domain tag took 0.00 seconds
+2025-09-07 23:32:34.285 INFO (MainThread) [homeassistant.setup] Setting up input_text
+2025-09-07 23:32:34.287 INFO (MainThread) [homeassistant.setup] Setup of domain input_text took 0.00 seconds
+2025-09-07 23:32:34.288 INFO (MainThread) [homeassistant.setup] Setting up ffmpeg
+2025-09-07 23:32:34.292 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=68691 running stdin=<_UnixWritePipeTransport fd=26 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=27 polling>>
+2025-09-07 23:32:34.360 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=68691 running stdin=<_UnixWritePipeTransport closed fd=26 closed> stdout=<_UnixReadPipeTransport fd=27 polling>> exited with return code 0
+2025-09-07 23:32:34.360 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=27 polling> was closed by peer
+2025-09-07 23:32:34.361 INFO (MainThread) [homeassistant.setup] Setup of domain ffmpeg took 0.07 seconds
+2025-09-07 23:32:34.378 INFO (MainThread) [homeassistant.setup] Setting up stream
+2025-09-07 23:32:34.383 INFO (MainThread) [homeassistant.setup] Setup of domain stream took 0.01 seconds
+2025-09-07 23:32:34.387 INFO (MainThread) [homeassistant.setup] Setting up input_select
+2025-09-07 23:32:34.388 INFO (MainThread) [homeassistant.setup] Setup of domain input_select took 0.00 seconds
+2025-09-07 23:32:34.390 INFO (MainThread) [homeassistant.setup] Setting up homeassistant_alerts
+2025-09-07 23:32:34.390 INFO (MainThread) [homeassistant.setup] Setup of domain homeassistant_alerts took 0.00 seconds
+2025-09-07 23:32:34.391 INFO (MainThread) [homeassistant.setup] Setting up input_datetime
+2025-09-07 23:32:34.392 INFO (MainThread) [homeassistant.setup] Setup of domain input_datetime took 0.00 seconds
+2025-09-07 23:32:34.393 INFO (MainThread) [homeassistant.setup] Setting up sun
+2025-09-07 23:32:34.393 INFO (MainThread) [homeassistant.setup] Setup of domain sun took 0.00 seconds
+2025-09-07 23:32:34.395 INFO (MainThread) [homeassistant.setup] Setting up binary_sensor
+2025-09-07 23:32:34.395 INFO (MainThread) [homeassistant.setup] Setup of domain binary_sensor took 0.00 seconds
+2025-09-07 23:32:34.395 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up sun.binary_sensor
+2025-09-07 23:32:34.397 INFO (MainThread) [homeassistant.setup] Setting up sensor
+2025-09-07 23:32:34.397 INFO (MainThread) [homeassistant.setup] Setup of domain sensor took 0.00 seconds
+2025-09-07 23:32:34.397 INFO (MainThread) [homeassistant.components.sensor] Setting up sun.sensor
+2025-09-07 23:32:34.403 INFO (MainThread) [homeassistant.setup] Setting up schedule
+2025-09-07 23:32:34.404 INFO (MainThread) [homeassistant.setup] Setup of domain schedule took 0.00 seconds
+2025-09-07 23:32:34.407 INFO (MainThread) [homeassistant.setup] Setting up energy
+2025-09-07 23:32:34.409 INFO (MainThread) [homeassistant.setup] Setup of domain energy took 0.00 seconds
+2025-09-07 23:32:34.409 INFO (MainThread) [homeassistant.setup] Setting up counter
+2025-09-07 23:32:34.410 INFO (MainThread) [homeassistant.setup] Setup of domain counter took 0.00 seconds
+2025-09-07 23:32:34.411 INFO (MainThread) [homeassistant.setup] Setting up shopping_list
+2025-09-07 23:32:34.412 INFO (MainThread) [homeassistant.setup] Setup of domain shopping_list took 0.00 seconds
+2025-09-07 23:32:34.445 INFO (MainThread) [homeassistant.setup] Setting up llmvision
+2025-09-07 23:32:34.445 INFO (MainThread) [homeassistant.setup] Setting up media_source
+2025-09-07 23:32:34.446 INFO (MainThread) [homeassistant.setup] Setup of domain media_source took 0.00 seconds
+2025-09-07 23:32:34.448 INFO (MainThread) [homeassistant.setup] Setup of domain llmvision took 0.00 seconds
+2025-09-07 23:32:34.462 INFO (MainThread) [homeassistant.setup] Setting up calendar
+2025-09-07 23:32:34.462 INFO (MainThread) [homeassistant.setup] Setup of domain calendar took 0.00 seconds
+2025-09-07 23:32:34.463 INFO (MainThread) [homeassistant.components.calendar] Setting up llmvision.calendar
+2025-09-07 23:32:34.473 INFO (MainThread) [homeassistant.setup] Setting up radio_browser
+2025-09-07 23:32:34.474 INFO (MainThread) [homeassistant.setup] Setup of domain radio_browser took 0.00 seconds
+2025-09-07 23:32:34.480 INFO (MainThread) [homeassistant.setup] Setting up hardware
+2025-09-07 23:32:34.489 INFO (MainThread) [homeassistant.setup] Setup of domain hardware took 0.01 seconds
+2025-09-07 23:32:34.523 INFO (MainThread) [homeassistant.setup] Setting up reolink
+2025-09-07 23:32:34.523 INFO (MainThread) [homeassistant.setup] Setup of domain reolink took 0.00 seconds
+2025-09-07 23:32:34.536 INFO (MainThread) [homeassistant.setup] Setting up google_translate
+2025-09-07 23:32:34.536 INFO (MainThread) [homeassistant.setup] Setup of domain google_translate took 0.00 seconds
+2025-09-07 23:32:34.537 INFO (MainThread) [homeassistant.setup] Setting up application_credentials
+2025-09-07 23:32:34.538 INFO (MainThread) [homeassistant.setup] Setup of domain application_credentials took 0.00 seconds
+2025-09-07 23:32:34.545 INFO (MainThread) [homeassistant.setup] Setting up dahua
+2025-09-07 23:32:34.545 INFO (MainThread) [homeassistant.setup] Setup of domain dahua took 0.00 seconds
+2025-09-07 23:32:34.545 INFO (MainThread) [custom_components.dahua] 
+-------------------------------------------------------------------
+Dahua
+This is a custom integration for Dahua cameras!
+If you have any issues with this you need to open an issue here:
+https://github.com/rroller/dahua/issues
+-------------------------------------------------------------------
+2025-09-07 23:32:34.608 INFO (MainThread) [homeassistant.setup] Setting up mobile_app
+2025-09-07 23:32:34.672 INFO (MainThread) [homeassistant.setup] Setting up notify
+2025-09-07 23:32:34.672 INFO (MainThread) [homeassistant.setup] Setup of domain notify took 0.00 seconds
+2025-09-07 23:32:34.673 INFO (MainThread) [homeassistant.setup] Setup of domain mobile_app took 0.06 seconds
+2025-09-07 23:32:34.673 INFO (MainThread) [homeassistant.components.notify] Setting up notify.mobile_app
+2025-09-07 23:32:34.707 INFO (MainThread) [homeassistant.setup] Setting up onvif
+2025-09-07 23:32:34.707 INFO (MainThread) [homeassistant.setup] Setup of domain onvif took 0.00 seconds
+2025-09-07 23:32:34.709 INFO (MainThread) [homeassistant.components.sensor] Setting up energy.sensor
+2025-09-07 23:32:34.711 INFO (MainThread) [homeassistant.setup] Setting up analytics
+2025-09-07 23:32:34.712 INFO (MainThread) [homeassistant.setup] Setup of domain analytics took 0.00 seconds
+2025-09-07 23:32:34.713 INFO (MainThread) [homeassistant.setup] Setting up todo
+2025-09-07 23:32:34.716 INFO (MainThread) [homeassistant.setup] Setup of domain todo took 0.00 seconds
+2025-09-07 23:32:34.717 INFO (MainThread) [homeassistant.components.todo] Setting up shopping_list.todo
+2025-09-07 23:32:34.720 INFO (MainThread) [homeassistant.setup] Setting up tts
+2025-09-07 23:32:34.722 INFO (MainThread) [homeassistant.setup] Setup of domain tts took 0.00 seconds
+2025-09-07 23:32:34.723 INFO (MainThread) [homeassistant.components.tts] Setting up google_translate.tts
+2025-09-07 23:32:34.725 INFO (MainThread) [homeassistant.setup] Setting up event
+2025-09-07 23:32:34.725 INFO (MainThread) [homeassistant.setup] Setup of domain event took 0.00 seconds
+2025-09-07 23:32:34.725 INFO (MainThread) [homeassistant.components.event] Setting up backup.event
+2025-09-07 23:32:34.726 INFO (MainThread) [homeassistant.components.sensor] Setting up backup.sensor
+2025-09-07 23:32:34.728 INFO (MainThread) [custom_components.dahua] Using max streams 3
+2025-09-07 23:32:34.796 INFO (MainThread) [homeassistant.setup] Setting up tapo_control
+2025-09-07 23:32:34.796 INFO (MainThread) [homeassistant.setup] Setup of domain tapo_control took 0.00 seconds
+2025-09-07 23:32:35.487 INFO (MainThread) [custom_components.dahua] Using channel number 1
+2025-09-07 23:32:35.608 INFO (MainThread) [custom_components.dahua] Device supports Coaxial Control=True
+2025-09-07 23:32:35.769 INFO (MainThread) [custom_components.dahua] Device supports disarming linkage=True
+2025-09-07 23:32:35.915 INFO (MainThread) [custom_components.dahua] Device supports event notifications=True
+2025-09-07 23:32:36.087 INFO (MainThread) [custom_components.dahua] Device supports smart motion detection=True
+2025-09-07 23:32:36.088 INFO (MainThread) [custom_components.dahua] Device is a doorbell=False
+2025-09-07 23:32:36.088 INFO (MainThread) [custom_components.dahua] Device is a floodlight=False
+2025-09-07 23:32:36.391 INFO (MainThread) [custom_components.dahua] Device supports infrared lighting=True
+2025-09-07 23:32:36.499 INFO (MainThread) [custom_components.dahua] Device supports Lighting_V2=True
+2025-09-07 23:32:36.499 INFO (Thread-13) [custom_components.dahua] Starting DahuaEventThread
+2025-09-07 23:32:36.731 INFO (MainThread) [custom_components.dahua] Device supports profile mode=True
+2025-09-07 23:32:38.668 INFO (MainThread) [homeassistant.setup] Setting up camera
+2025-09-07 23:32:38.671 INFO (MainThread) [homeassistant.setup] Setup of domain camera took 0.00 seconds
+2025-09-07 23:32:38.672 INFO (MainThread) [homeassistant.components.camera] Setting up tapo_control.camera
+2025-09-07 23:32:38.691 INFO (MainThread) [homeassistant.setup] Setting up switch
+2025-09-07 23:32:38.692 INFO (MainThread) [homeassistant.setup] Setup of domain switch took 0.00 seconds
+2025-09-07 23:32:38.692 INFO (MainThread) [homeassistant.components.switch] Setting up tapo_control.switch
+2025-09-07 23:32:38.693 INFO (MainThread) [homeassistant.setup] Setting up button
+2025-09-07 23:32:38.693 INFO (MainThread) [homeassistant.setup] Setup of domain button took 0.00 seconds
+2025-09-07 23:32:38.693 INFO (MainThread) [homeassistant.components.button] Setting up tapo_control.button
+2025-09-07 23:32:38.694 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoCalibrateButton: Capability getPresets (mapped to:getPresetConfig) cached but not supported.
+2025-09-07 23:32:38.694 INFO (MainThread) [custom_components.tapo_control] Buttons: Camera does not support movement.
+2025-09-07 23:32:38.696 INFO (MainThread) [homeassistant.setup] Setting up light
+2025-09-07 23:32:38.699 INFO (MainThread) [homeassistant.setup] Setup of domain light took 0.00 seconds
+2025-09-07 23:32:38.700 INFO (MainThread) [homeassistant.components.light] Setting up tapo_control.light
+2025-09-07 23:32:38.701 INFO (MainThread) [homeassistant.setup] Setting up number
+2025-09-07 23:32:38.702 INFO (MainThread) [homeassistant.setup] Setup of domain number took 0.00 seconds
+2025-09-07 23:32:38.702 INFO (MainThread) [homeassistant.components.number] Setting up tapo_control.number
+2025-09-07 23:32:38.702 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoMovementAngle: Capability getPresets (mapped to:getPresetConfig) cached but not supported.
+2025-09-07 23:32:38.704 INFO (MainThread) [homeassistant.setup] Setting up select
+2025-09-07 23:32:38.704 INFO (MainThread) [homeassistant.setup] Setup of domain select took 0.00 seconds
+2025-09-07 23:32:38.705 INFO (MainThread) [homeassistant.components.select] Setting up tapo_control.select
+2025-09-07 23:32:38.705 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoSirenTypeSelect: Capability getSirenTypeList (mapped to:getSirenTypeList) cached but not supported.
+2025-09-07 23:32:38.705 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoTamperDetectionSelect: Capability getTamperDetection (mapped to:getTamperDetectionConfig) cached but not supported.
+2025-09-07 23:32:38.705 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoMoveToPresetSelect: Capability getPresets (mapped to:getPresetConfig) cached but not supported.
+2025-09-07 23:32:38.705 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoPatrolModeSelect: Capability getPresets (mapped to:getPresetConfig) cached but not supported.
+2025-09-07 23:32:38.707 INFO (MainThread) [homeassistant.setup] Setting up siren
+2025-09-07 23:32:38.707 INFO (MainThread) [homeassistant.setup] Setup of domain siren took 0.00 seconds
+2025-09-07 23:32:38.707 INFO (MainThread) [homeassistant.components.siren] Setting up tapo_control.siren
+2025-09-07 23:32:38.708 INFO (MainThread) [homeassistant.setup] Setting up update
+2025-09-07 23:32:38.709 INFO (MainThread) [homeassistant.setup] Setup of domain update took 0.00 seconds
+2025-09-07 23:32:38.709 INFO (MainThread) [homeassistant.components.update] Setting up tapo_control.update
+2025-09-07 23:32:38.710 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up tapo_control.binary_sensor
+2025-09-07 23:32:38.711 INFO (MainThread) [homeassistant.components.sensor] Setting up tapo_control.sensor
+2025-09-07 23:32:38.714 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoAutoTrackSwitch: Capability getAutoTrackTarget (mapped to:getTargetTrackConfig) cached but not supported.
+2025-09-07 23:32:39.099 INFO (MainThread) [custom_components.tapo_control] Camera does not support TapoFloodlight: Switch force_wtl_state is not supported by this camera
+2025-09-07 23:32:42.493 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up reolink.binary_sensor
+2025-09-07 23:32:42.495 INFO (MainThread) [homeassistant.components.button] Setting up reolink.button
+2025-09-07 23:32:42.497 INFO (MainThread) [homeassistant.components.camera] Setting up reolink.camera
+2025-09-07 23:32:42.498 INFO (MainThread) [homeassistant.components.light] Setting up reolink.light
+2025-09-07 23:32:42.498 INFO (MainThread) [homeassistant.components.number] Setting up reolink.number
+2025-09-07 23:32:42.500 INFO (MainThread) [homeassistant.components.select] Setting up reolink.select
+2025-09-07 23:32:42.501 INFO (MainThread) [homeassistant.components.sensor] Setting up reolink.sensor
+2025-09-07 23:32:42.502 INFO (MainThread) [homeassistant.components.siren] Setting up reolink.siren
+2025-09-07 23:32:42.503 INFO (MainThread) [homeassistant.components.switch] Setting up reolink.switch
+2025-09-07 23:32:42.504 INFO (MainThread) [homeassistant.components.update] Setting up reolink.update
+2025-09-07 23:32:56.991 WARNING (MainThread) [custom_components.dahua] TimeoutError fetching information from http://192.168.86.109:80/cgi-bin/configManager.cgi?action=getConfig&name=Lighting[0][2]
+2025-09-07 23:32:56.992 WARNING (MainThread) [custom_components.dahua] TimeoutError fetching information from http://192.168.86.109:80/cgi-bin/configManager.cgi?action=getConfig&name=DisableEventNotify
+2025-09-07 23:32:56.992 WARNING (MainThread) [custom_components.dahua] Failed to sync device state for 192.168.86.109. See README to enable debug logs to get full exception
+2025-09-07 23:32:56.993 WARNING (MainThread) [custom_components.dahua] TimeoutError fetching information from http://192.168.86.109:80/cgi-bin/configManager.cgi?action=getConfig&name=SmartMotionDetect
+2025-09-07 23:32:56.995 INFO (MainThread) [homeassistant.bootstrap] Home Assistant initialized in 23.15s
+2025-09-07 23:32:56.996 INFO (MainThread) [homeassistant.core] Starting Home Assistant 2025.10.0.dev0
+2025-09-07 23:32:57.093 INFO (MainThread) [asyncio] <Server sockets=(<asyncio.TransportSocket fd=38, family=2, type=1, proto=6, laddr=('172.17.0.2', 40000)>,)> is serving
+2025-09-07 23:32:57.902 INFO (MainThread) [custom_components.dahua] Using max streams 3
+2025-09-07 23:32:58.888 INFO (MainThread) [custom_components.dahua] Using channel number 1
+2025-09-07 23:32:59.070 INFO (MainThread) [custom_components.dahua] Device supports Coaxial Control=True
+2025-09-07 23:32:59.218 INFO (MainThread) [custom_components.dahua] Device supports disarming linkage=True
+2025-09-07 23:32:59.363 INFO (MainThread) [custom_components.dahua] Device supports event notifications=True
+2025-09-07 23:32:59.505 INFO (MainThread) [custom_components.dahua] Device supports smart motion detection=True
+2025-09-07 23:32:59.506 INFO (MainThread) [custom_components.dahua] Device is a doorbell=False
+2025-09-07 23:32:59.506 INFO (MainThread) [custom_components.dahua] Device is a floodlight=False
+2025-09-07 23:32:59.833 INFO (MainThread) [custom_components.dahua] Device supports infrared lighting=True
+2025-09-07 23:33:00.061 INFO (MainThread) [custom_components.dahua] Device supports Lighting_V2=True
+2025-09-07 23:33:00.063 INFO (Thread-15) [custom_components.dahua] Starting DahuaEventThread
+2025-09-07 23:33:00.288 INFO (MainThread) [custom_components.dahua] Device supports profile mode=True
+2025-09-07 23:33:01.536 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up dahua.binary_sensor
+2025-09-07 23:33:01.542 INFO (MainThread) [homeassistant.components.switch] Setting up dahua.switch
+2025-09-07 23:33:01.821 INFO (MainThread) [homeassistant.components.light] Setting up dahua.light
+2025-09-07 23:33:01.827 INFO (MainThread) [homeassistant.components.camera] Setting up dahua.camera
+2025-09-07 23:33:01.840 INFO (MainThread) [homeassistant.components.select] Setting up dahua.select
+2025-09-07 23:33:12.759 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=68818 running stdin=<_UnixWritePipeTransport fd=26 idle bufsize=0> stderr=<_UnixReadPipeTransport fd=39 polling>>
+2025-09-07 23:33:12.887 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=39 polling> was closed by peer
+2025-09-07 23:33:12.888 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=26 idle bufsize=0> was closed by peer
+2025-09-07 23:33:12.889 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=68818 running stdin=<_UnixWritePipeTransport closed fd=26 closed> stderr=<_UnixReadPipeTransport closed fd=39 closed>> exited with return code 255
+2025-09-07 23:33:13.138 INFO (MainThread) [custom_components.tapo_control] Disabling media sync as there was error returned from getRecordingsList. Do you have SD card inserted?
+2025-09-07 23:33:13.138 INFO (MainThread) [custom_components.tapo_control] front_side_camera: Error: -71114, Response: {"method": "searchDateWithVideo", "result": {}, "error_code": -71114}
+2025-09-07 23:34:52.747 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69101 running stdin=<_UnixWritePipeTransport fd=42 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=43 polling> stderr=<_UnixReadPipeTransport fd=49 polling>>
+2025-09-07 23:34:53.386 WARNING (MainThread) [py.warnings] /home/vscode/.local/ha-venv/lib/python3.13/site-packages/turbojpeg.py:947: UserWarning: Corrupt JPEG data: 608 extraneous bytes before marker 0xfe
+  warnings.warn(self.__get_error_string(handle))
+2025-09-07 23:34:53.767 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=49 polling> was closed by peer
+2025-09-07 23:34:53.767 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=43 polling> was closed by peer
+2025-09-07 23:34:53.767 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=42 idle bufsize=0> was closed by peer
+2025-09-07 23:34:53.768 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69101 running stdin=<_UnixWritePipeTransport closed fd=42 closed> stdout=<_UnixReadPipeTransport closed fd=43 closed> stderr=<_UnixReadPipeTransport closed fd=49 closed>> exited with return code 0
+2025-09-07 23:37:37.487 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:37:42.434 INFO (MainThread) [homeassistant.helpers.entity_registry] Registered new automation.automation entity: automation.test_gemini_phase_1
+2025-09-07 23:38:00.488 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:38:48.813 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69752 running stdin=<_UnixWritePipeTransport fd=52 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=54 polling>>
+2025-09-07 23:38:48.815 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69750 running stdin=<_UnixWritePipeTransport fd=50 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=51 polling> stderr=<_UnixReadPipeTransport fd=53 polling>>
+2025-09-07 23:38:49.699 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=54 polling> was closed by peer
+2025-09-07 23:38:49.700 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69752 running stdin=<_UnixWritePipeTransport closed fd=52 closed> stdout=<_UnixReadPipeTransport closed fd=54 closed>> exited with return code 255
+2025-09-07 23:38:49.704 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69803 running stdin=<_UnixWritePipeTransport fd=54 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=55 polling>>
+2025-09-07 23:38:49.728 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=53 polling> was closed by peer
+2025-09-07 23:38:49.728 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=51 polling> was closed by peer
+2025-09-07 23:38:49.728 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=50 idle bufsize=0> was closed by peer
+2025-09-07 23:38:49.728 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69750 running stdin=<_UnixWritePipeTransport closed fd=50 closed> stdout=<_UnixReadPipeTransport closed fd=51 closed> stderr=<_UnixReadPipeTransport closed fd=53 closed>> exited with return code 0
+2025-09-07 23:38:49.737 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69805 running stdin=<_UnixWritePipeTransport fd=50 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=51 polling> stderr=<_UnixReadPipeTransport fd=53 polling>>
+2025-09-07 23:38:49.891 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=55 polling> was closed by peer
+2025-09-07 23:38:49.892 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69803 running stdin=<_UnixWritePipeTransport closed fd=54 closed> stdout=<_UnixReadPipeTransport closed fd=55 closed>> exited with return code 255
+2025-09-07 23:38:50.334 WARNING (MainThread) [py.warnings] /home/vscode/.local/ha-venv/lib/python3.13/site-packages/turbojpeg.py:947: UserWarning: Corrupt JPEG data: 608 extraneous bytes before marker 0xfe
+  warnings.warn(self.__get_error_string(handle))
+2025-09-07 23:38:55.747 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69822 running stdin=<_UnixWritePipeTransport fd=55 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=56 polling>>
+2025-09-07 23:38:55.748 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69824 running stdin=<_UnixWritePipeTransport fd=57 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=58 polling>>
+2025-09-07 23:38:55.907 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=58 polling> was closed by peer
+2025-09-07 23:38:55.908 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69824 running stdin=<_UnixWritePipeTransport closed fd=57 closed> stdout=<_UnixReadPipeTransport closed fd=58 closed>> exited with return code 255
+2025-09-07 23:39:03.727 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69847 running stdin=<_UnixWritePipeTransport fd=57 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=59 polling>>
+2025-09-07 23:39:03.728 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=69845 running stdin=<_UnixWritePipeTransport fd=54 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=55 polling> stderr=<_UnixReadPipeTransport fd=58 polling>>
+2025-09-07 23:39:03.882 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=59 polling> was closed by peer
+2025-09-07 23:39:03.883 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69847 running stdin=<_UnixWritePipeTransport closed fd=57 closed> stdout=<_UnixReadPipeTransport closed fd=59 closed>> exited with return code 255
+2025-09-07 23:39:10.751 WARNING (MainThread) [haffmpeg.tools] Timeout reading image.
+2025-09-07 23:39:10.757 WARNING (MainThread) [haffmpeg.core] Timeout while waiting of FFmpeg
+2025-09-07 23:39:10.759 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=56 polling> was closed by peer
+2025-09-07 23:39:10.760 ERROR (MainThread) [homeassistant] Error doing job: Task exception was never retrieved (None):   File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspaces/core/homeassistant/__main__.py", line 229, in <module>
+    sys.exit(main())
+  File "/workspaces/core/homeassistant/__main__.py", line 215, in main
+    exit_code = runner.run(runtime_conf)
+  File "/workspaces/core/homeassistant/runner.py", line 271, in run
+    return loop.run_until_complete(setup_and_run_hass(runtime_config))
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py", line 683, in run_forever
+    self._run_once()
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py", line 2042, in _run_once
+    handle._run()
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/haffmpeg/tools.py", line 55, in get_image
+    await self.close(0)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/haffmpeg/core.py", line 161, in close
+    self.kill()
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/haffmpeg/core.py", line 169, in kill
+    background_task = asyncio.create_task(self._proc.communicate())
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py", line 410, in create_task
+    task = loop.create_task(coro, name=name)
+Traceback (most recent call last):
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/subprocess.py", line 201, in communicate
+    stdin, stdout, stderr = await tasks.gather(stdin, stdout, stderr)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/subprocess.py", line 181, in _read_stream
+    output = await stream.read()
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/streams.py", line 723, in read
+    block = await self.read(self._limit)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/streams.py", line 730, in read
+    await self._wait_for_data('read')
+  File "/home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/streams.py", line 525, in _wait_for_data
+    raise RuntimeError(
+        f'{func_name}() called while another coroutine is '
+        f'already waiting for incoming data')
+RuntimeError: read() called while another coroutine is already waiting for incoming data
+2025-09-07 23:39:10.762 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=69822 running stdin=<_UnixWritePipeTransport closed fd=55 closed> stdout=<_UnixReadPipeTransport closed fd=56 closed>> exited with return code -9
+2025-09-07 23:40:07.607 INFO (MainThread) [homeassistant.helpers.script.websocket_api_script] websocket_api script: Running websocket_api script
+2025-09-07 23:40:07.607 INFO (MainThread) [homeassistant.helpers.script.websocket_api_script] websocket_api script: Executing step call service
+2025-09-07 23:40:07.608 INFO (MainThread) [custom_components.llmvision.media_handlers] Recording doorbell_clear, front_side_camera_hd_stream_direct, full_front_camera_main for 5 seconds
+2025-09-07 23:40:07.613 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:07.614 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:07.616 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:07.623 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70013 running stdin=<_UnixWritePipeTransport fd=62 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=63 polling> stderr=<_UnixReadPipeTransport fd=65 polling>>
+2025-09-07 23:40:08.382 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 0.77 seconds
+2025-09-07 23:40:08.444 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.06 seconds
+2025-09-07 23:40:08.444 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 0.83 seconds, interval adjusted to: 1.1719732284545898
+2025-09-07 23:40:08.446 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 0.83 seconds
+2025-09-07 23:40:08.464 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.02 seconds
+2025-09-07 23:40:08.464 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 0.85 seconds, interval adjusted to: 1.1497719287872314
+2025-09-07 23:40:08.574 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=65 polling> was closed by peer
+2025-09-07 23:40:08.574 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=63 polling> was closed by peer
+2025-09-07 23:40:08.574 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=62 idle bufsize=0> was closed by peer
+2025-09-07 23:40:08.574 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70013 running stdin=<_UnixWritePipeTransport closed fd=62 closed> stdout=<_UnixReadPipeTransport closed fd=63 closed> stderr=<_UnixReadPipeTransport closed fd=65 closed>> exited with return code 0
+2025-09-07 23:40:08.576 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 0.96 seconds
+2025-09-07 23:40:08.584 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.01 seconds
+2025-09-07 23:40:08.584 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 0.97 seconds, interval adjusted to: 1.0304086208343506
+2025-09-07 23:40:09.621 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:09.623 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:09.624 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:09.633 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70068 running stdin=<_UnixWritePipeTransport fd=62 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=63 polling> stderr=<_UnixReadPipeTransport fd=65 polling>>
+2025-09-07 23:40:10.398 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 0.78 seconds
+2025-09-07 23:40:10.531 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.13 seconds
+2025-09-07 23:40:10.532 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-1173' coro=<MediaProcessor.record.<locals>.record_camera() running at /workspaces/core/config/custom_components/llmvision/media_handlers.py:398> wait_for=<Future pending cb=[Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.133 seconds
+2025-09-07 23:40:10.534 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 0.91 seconds
+2025-09-07 23:40:10.784 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.25 seconds
+2025-09-07 23:40:10.784 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-1175' coro=<MediaProcessor.record.<locals>.record_camera() running at /workspaces/core/config/custom_components/llmvision/media_handlers.py:398> wait_for=<Future pending cb=[Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.249 seconds
+2025-09-07 23:40:10.795 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=65 polling> was closed by peer
+2025-09-07 23:40:10.796 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=63 polling> was closed by peer
+2025-09-07 23:40:10.796 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=62 idle bufsize=0> was closed by peer
+2025-09-07 23:40:10.796 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70068 running stdin=<_UnixWritePipeTransport closed fd=62 closed> stdout=<_UnixReadPipeTransport closed fd=63 closed> stderr=<_UnixReadPipeTransport closed fd=65 closed>> exited with return code 0
+2025-09-07 23:40:10.798 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 1.17 seconds
+2025-09-07 23:40:10.830 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.03 seconds
+2025-09-07 23:40:11.627 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:11.629 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:11.630 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:11.638 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70123 running stdin=<_UnixWritePipeTransport fd=62 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=63 polling> stderr=<_UnixReadPipeTransport fd=65 polling>>
+2025-09-07 23:40:12.296 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 0.67 seconds
+2025-09-07 23:40:12.433 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.14 seconds
+2025-09-07 23:40:12.434 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-1175' coro=<MediaProcessor.record.<locals>.record_camera() running at /workspaces/core/config/custom_components/llmvision/media_handlers.py:398> wait_for=<Future pending cb=[Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.137 seconds
+2025-09-07 23:40:12.436 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 0.81 seconds
+2025-09-07 23:40:12.492 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.06 seconds
+2025-09-07 23:40:12.527 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=65 polling> was closed by peer
+2025-09-07 23:40:12.528 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=63 polling> was closed by peer
+2025-09-07 23:40:12.528 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=62 idle bufsize=0> was closed by peer
+2025-09-07 23:40:12.528 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70123 running stdin=<_UnixWritePipeTransport closed fd=62 closed> stdout=<_UnixReadPipeTransport closed fd=63 closed> stderr=<_UnixReadPipeTransport closed fd=65 closed>> exited with return code 0
+2025-09-07 23:40:12.529 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 0.90 seconds
+2025-09-07 23:40:12.562 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.03 seconds
+2025-09-07 23:40:13.691 INFO (SyncWorker_0) [custom_components.llmvision.media_handlers] [save_clip] clip: None, image: /workspaces/core/config/media/llmvision/snapshots/73ff368d-0.jpg
+2025-09-07 23:40:15.958 ERROR (MainThread) [custom_components.llmvision.providers] Error: Resource has been exhausted (e.g. check quota).
+2025-09-07 23:40:15.958 ERROR (MainThread) [custom_components.llmvision.providers] Provider Google failed: Resource has been exhausted (e.g. check quota).
+2025-09-07 23:40:35.247 INFO (MainThread) [homeassistant.components.automation.test_gemini_phase_1] Test Gemini Phase 1: Running automation actions
+2025-09-07 23:40:35.248 INFO (MainThread) [homeassistant.components.automation.test_gemini_phase_1] Test Gemini Phase 1: Executing step call service
+2025-09-07 23:40:35.250 INFO (MainThread) [custom_components.llmvision.media_handlers] Recording doorbell_clear, front_side_camera_hd_stream_direct, full_front_camera_main for 5 seconds
+2025-09-07 23:40:35.253 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:35.254 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:35.255 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:35.265 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70234 running stdin=<_UnixWritePipeTransport fd=60 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=64 polling> stderr=<_UnixReadPipeTransport fd=66 polling>>
+2025-09-07 23:40:36.233 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=66 polling> was closed by peer
+2025-09-07 23:40:36.233 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=64 polling> was closed by peer
+2025-09-07 23:40:36.234 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=60 idle bufsize=0> was closed by peer
+2025-09-07 23:40:36.234 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70234 running stdin=<_UnixWritePipeTransport closed fd=60 closed> stdout=<_UnixReadPipeTransport closed fd=64 closed> stderr=<_UnixReadPipeTransport closed fd=66 closed>> exited with return code 0
+2025-09-07 23:40:36.236 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 0.98 seconds
+2025-09-07 23:40:36.247 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.01 seconds
+2025-09-07 23:40:36.247 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 0.99 seconds, interval adjusted to: 1.0077404975891113
+2025-09-07 23:40:36.454 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 1.20 seconds
+2025-09-07 23:40:36.483 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.03 seconds
+2025-09-07 23:40:36.483 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 1.23 seconds, interval adjusted to: 0.7720813751220703
+2025-09-07 23:40:37.059 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 1.81 seconds
+2025-09-07 23:40:37.081 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.02 seconds
+2025-09-07 23:40:37.082 INFO (MainThread) [custom_components.llmvision.media_handlers] First iteration took: 1.83 seconds, interval adjusted to: 0.17173147201538086
+2025-09-07 23:40:37.264 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:37.265 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:37.267 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:37.275 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70289 running stdin=<_UnixWritePipeTransport fd=60 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=64 polling> stderr=<_UnixReadPipeTransport fd=66 polling>>
+2025-09-07 23:40:38.271 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=66 polling> was closed by peer
+2025-09-07 23:40:38.271 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=64 polling> was closed by peer
+2025-09-07 23:40:38.271 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=60 idle bufsize=0> was closed by peer
+2025-09-07 23:40:38.272 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70289 running stdin=<_UnixWritePipeTransport closed fd=60 closed> stdout=<_UnixReadPipeTransport closed fd=64 closed> stderr=<_UnixReadPipeTransport closed fd=66 closed>> exited with return code 0
+2025-09-07 23:40:38.273 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 1.01 seconds
+2025-09-07 23:40:38.312 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.04 seconds
+2025-09-07 23:40:38.314 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 1.05 seconds
+2025-09-07 23:40:38.371 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.06 seconds
+2025-09-07 23:40:38.388 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 1.12 seconds
+2025-09-07 23:40:38.519 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.13 seconds
+2025-09-07 23:40:38.520 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-1274' coro=<MediaProcessor.record.<locals>.record_camera() running at /workspaces/core/config/custom_components/llmvision/media_handlers.py:398> wait_for=<Future pending cb=[Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.131 seconds
+2025-09-07 23:40:39.267 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:39.269 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.front_side_camera_hd_stream_direct?token=b9ecff4453e8440a9f85cd09bc592491b75310107af55a08d0545e3acb01c994 (attempt 1/2)
+2025-09-07 23:40:39.271 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:39.280 INFO (MainThread) [asyncio] execute program 'ffmpeg': <_UnixSubprocessTransport pid=70345 running stdin=<_UnixWritePipeTransport fd=65 idle bufsize=0> stdout=<_UnixReadPipeTransport fd=66 polling> stderr=<_UnixReadPipeTransport fd=69 polling>>
+2025-09-07 23:40:39.886 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 0.62 seconds
+2025-09-07 23:40:39.950 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.06 seconds
+2025-09-07 23:40:40.473 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 1.20 seconds
+2025-09-07 23:40:40.555 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.08 seconds
+2025-09-07 23:40:41.041 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=69 polling> was closed by peer
+2025-09-07 23:40:41.041 INFO (MainThread) [asyncio] <_UnixReadPipeTransport fd=66 polling> was closed by peer
+2025-09-07 23:40:41.041 INFO (MainThread) [asyncio] <_UnixWritePipeTransport fd=65 idle bufsize=0> was closed by peer
+2025-09-07 23:40:41.042 INFO (MainThread) [asyncio] <_UnixSubprocessTransport pid=70345 running stdin=<_UnixWritePipeTransport closed fd=65 closed> stdout=<_UnixReadPipeTransport closed fd=66 closed> stderr=<_UnixReadPipeTransport closed fd=69 closed>> exited with return code 0
+2025-09-07 23:40:41.043 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.front_side_camera_hd_stream_direct in 1.77 seconds
+2025-09-07 23:40:41.081 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.04 seconds
+2025-09-07 23:40:41.273 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.doorbell_clear?token=fb95738ffb2c45b4125f2e35b0e227faa41517ca154f1cc23167ba5b4a43d56d (attempt 1/2)
+2025-09-07 23:40:41.276 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetching http://172.17.0.2:8123/api/camera_proxy/camera.full_front_camera_main?token=e778eb0bbbd0b69059cef20fa2bf1a61b97b661034f3b79fadb5680146e9c24a (attempt 1/2)
+2025-09-07 23:40:42.180 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.doorbell_clear in 0.91 seconds
+2025-09-07 23:40:42.243 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.06 seconds
+2025-09-07 23:40:42.470 INFO (MainThread) [custom_components.llmvision.media_handlers] Fetched camera.full_front_camera_main in 1.19 seconds
+2025-09-07 23:40:42.582 INFO (MainThread) [custom_components.llmvision.media_handlers] Preprocessing took: 0.11 seconds
+2025-09-07 23:40:42.582 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-1274' coro=<MediaProcessor.record.<locals>.record_camera() running at /workspaces/core/config/custom_components/llmvision/media_handlers.py:398> wait_for=<Future pending cb=[Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.111 seconds
+2025-09-07 23:40:43.338 INFO (SyncWorker_0) [custom_components.llmvision.media_handlers] [save_clip] clip: None, image: /workspaces/core/config/media/llmvision/snapshots/263ee3eb-0.jpg
+2025-09-07 23:40:46.054 ERROR (MainThread) [custom_components.llmvision.providers] Error: Resource has been exhausted (e.g. check quota).
+2025-09-07 23:40:46.054 ERROR (MainThread) [custom_components.llmvision.providers] Provider Google failed: Resource has been exhausted (e.g. check quota).
+2025-09-07 23:42:38.489 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:43:01.485 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:47:39.485 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:48:02.485 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:52:40.490 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:53:03.486 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:55:45.458 WARNING (MainThread) [asyncio] Executing <Task pending name='Task-3287' coro=<DahuaClient.async_get_smart_motion_detection() running at /workspaces/core/config/custom_components/dahua/client.py:299> wait_for=<Future pending cb=[BaseSelectorEventLoop._sock_write_done()(), Task.task_wakeup()] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/base_events.py:459> cb=[gather.<locals>._done_callback() at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:820] created at /home/vscode/.local/share/uv/python/cpython-3.13.7-linux-aarch64-gnu/lib/python3.13/asyncio/tasks.py:748> took 0.102 seconds
+2025-09-07 23:57:41.490 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-07 23:58:04.494 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:02:42.488 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:03:05.488 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:07:14.139 INFO (MainThread) [homeassistant.helpers.entity_registry] Registered new binary_sensor.tapo_control entity: binary_sensor.front_side_camera_cell_motion_detection
+2025-09-08 00:07:43.490 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:08:06.491 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:12:44.494 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:13:07.494 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:17:45.494 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:18:08.492 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:22:46.493 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:23:09.496 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:27:47.496 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:28:10.495 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:32:48.499 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:33:11.492 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:37:49.516 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError
+2025-09-08 00:38:12.514 ERROR (MainThread) [custom_components.dahua] 
+Traceback (most recent call last):
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 347, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspaces/core/config/custom_components/dahua/client.py", line 744, in stream_events
+    async for data, _ in response.content.iter_chunks():
+        on_receive(data, channel)
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 71, in __anext__
+    rv = await self._stream.readchunk()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 476, in readchunk
+    await self._wait("readchunk")
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/streams.py", line 346, in _wait
+    with self._timer:
+         ^^^^^^^^^^^
+  File "/home/vscode/.local/ha-venv/lib/python3.13/site-packages/aiohttp/helpers.py", line 685, in __exit__
+    raise asyncio.TimeoutError from exc_val
+TimeoutError

@@ -1,0 +1,61 @@
+alias: Test Automation
+description: ""
+triggers: []
+conditions: []
+actions:
+  - action: llmvision.stream_analyzer
+    metadata: {}
+    data:
+      remember: true
+      duration: 5
+      max_frames: 5
+      min_frames_per_camera: 2
+      include_filename: true
+      target_width: 780
+      max_tokens: 1000
+      generate_title: true
+      expose_images: true
+      provider: 01K4JMWXNMPBVVVXXB07Y0MY8E
+      message: some prompt
+      image_entity:
+        - camera.doorbell_clear
+        - camera.front_side_camera_hd_stream_direct
+        - camera.full_front_camera_main
+    response_variable: response
+  - action: llmvision.image_analyzer
+    metadata: {}
+    data:
+      remember: false
+      use_memory: false
+      include_filename: true
+      target_width: 1280
+      max_tokens: 1000
+      generate_title: false
+      expose_images: false
+      response_format: json
+      provider: 01K4JMWXNMPBVVVXXB07Y0MY8E
+      message: SOME PROMPT
+      structure: JSON
+      image_entity:
+        - camera.doorbell_clear
+        - camera.front_side_camera_hd_stream_direct
+        - camera.full_front_camera_main
+    response_variable: response
+  - action: llmvision.video_analyzer
+    metadata: {}
+    data:
+      remember: true
+      use_memory: true
+      frigate_retry_attempts: 2
+      frigate_retry_seconds: 1
+      max_frames: 3
+      include_filename: true
+      target_width: 1280
+      max_tokens: 1000
+      generate_title: true
+      expose_images: true
+      provider: 01K4JMWXNMPBVVVXXB07Y0MY8E
+      message: some prompt
+      video_file: /media/some.mpeg
+    response_variable: response
+mode: single

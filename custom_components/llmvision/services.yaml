@@ -87,7 +87,7 @@ image_analyzer:
     generate_title:
       name: Generate Title
       required: false
-      description: Generate a title. (Used for notifications and remembered events)
+      description: Generate a title. For JSON responses, include a 'title' field in your schema instead. (Used for notifications and remembered events)
       default: false
       selector:
         boolean:
@@ -242,7 +242,7 @@ video_analyzer:
     generate_title:
       name: Generate Title
       required: false
-      description: Generate a title. (Used for notifications and remembered events)
+      description: Generate a title. For JSON responses, include a 'title' field in your schema instead. (Used for notifications and remembered events)
       default: false
       selector:
         boolean:
@@ -254,6 +254,25 @@ video_analyzer:
       default: false
       selector:
         boolean:
+    response_format:
+      name: Response Format
+      description: Format of the response - text for natural language or json for structured data
+      required: false
+      default: "text"
+      example: "json"
+      selector:
+        select:
+          options:
+            - "text"
+            - "json"
+    structure:
+      name: Structure
+      description: JSON schema defining the expected response structure (only used when response_format is json)
+      required: false
+      example: '{"type": "object", "properties": {"package_detected": {"type": "boolean", "description": "Is a package visible"}, "confidence": {"type": "number", "minimum": 0, "maximum": 100}}, "required": ["package_detected"]}'
+      selector:
+        text:
+          multiline: true
 
 stream_analyzer:
   name: Stream Analyzer
@@ -368,7 +387,7 @@ stream_analyzer:
     generate_title:
       name: Generate Title
       required: false
-      description: Generate a title. (Used for notifications and remembered events)
+      description: Generate a title. For JSON responses, include a 'title' field in your schema instead. (Used for notifications and remembered events)
       default: false
       selector:
         boolean:
@@ -380,6 +399,25 @@ stream_analyzer:
       default: false
       selector:
         boolean:
+    response_format:
+      name: Response Format
+      description: Format of the response - text for natural language or json for structured data
+      required: false
+      default: "text"
+      example: "json"
+      selector:
+        select:
+          options:
+            - "text"
+            - "json"
+    structure:
+      name: Structure
+      description: JSON schema defining the expected response structure (only used when response_format is json)
+      required: false
+      example: '{"type": "object", "properties": {"package_detected": {"type": "boolean", "description": "Is a package visible"}, "confidence": {"type": "number", "minimum": 0, "maximum": 100}}, "required": ["package_detected"]}'
+      selector:
+        text:
+          multiline: true
 
 data_analyzer:
   name: Data Analyzer
@@ -480,7 +518,7 @@ data_analyzer:
     generate_title:
       name: Generate Title
       required: false
-      description: Generate a title. (Used for notifications and remembered events)
+      description: Generate a title. For JSON responses, include a 'title' field in your schema instead. (Used for notifications and remembered events)
       default: false
       selector:
         boolean:

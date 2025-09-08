@@ -50,13 +50,74 @@ logger:
 - Comprehensive LLM call logging to `/config/www/llmvision/logs/`
 
 ### Structured Output Implementation
-**Status: ✅ COMPLETE** - All providers support structured JSON responses via different mechanisms:
+**Status: ✅ COMPLETE** - All services now support structured JSON responses:
+- **image_analyzer**: ✅ Single image analysis with structured output
+- **stream_analyzer**: ✅ Multi-camera stream analysis with structured output  
+- **video_analyzer**: ✅ Video frame analysis with structured output
+
+**Provider Support** - All providers support structured JSON via different mechanisms:
 - **OpenAI**: JSON Schema with `strict: true` mode
 - **Anthropic**: Tool-based structured output approach
 - **Google**: `response_json_schema` in generationConfig
 - **Ollama**: `format` parameter for structured output
 
 **Testing**: Comprehensive integration tests validate real API calls with schema enforcement. See `tests/README_STRUCTURED_OUTPUT_TESTING.md` for details.
+
+### Using Structured Output in Automations
+
+**How It Works:**
+1. Set `response_format: json` and provide a JSON `structure` schema
+2. LLM returns raw JSON string matching the schema
+3. LLM Vision parses this into `response.structured_response` object
+4. Access fields directly: `{{ response.structured_response.field_name }}`
+
+**Response Structure:**
+```yaml
+response:
+  title: "Event Detected"                    # Generated title
+  structured_response:                       # Parsed JSON object
+    people_count: 0
+    objects_detected: ["plant", "grill"] 
+    activity_level: "low"
+    scene_description: "Front porch view..."
+  response_text: "{ ... }"                   # Raw JSON string (for debugging)
+  key_frame: "/path/to/image.jpg"           # Selected frame path
+```
+
+**Automation Usage Examples:**
+```yaml
+# Condition based on structured data
+- condition: template
+  value_template: "{{ response.structured_response.people_count > 0 }}"
+
+# Use in notifications  
+- service: notify.mobile_app
+  data:
+    message: "Detected {{ response.structured_response.objects_detected | length }} objects"
+
+# Loop through detected objects
+- service: script.process_objects
+  data:
+    objects: "{{ response.structured_response.objects_detected }}"
+
+# Access individual fields
+- service: input_number.set_value
+  target:
+    entity_id: input_number.people_count
+  data:
+    value: "{{ response.structured_response.people_count }}"
+```
+
+**Comparison with Raw JSON:**
+```yaml
+# With structured output (clean)
+{{ response.structured_response.people_count }}
+
+# Without structured output (requires JSON parsing)
+{{ (response.response_text | from_json).people_count }}
+```
+
+The structured approach eliminates the need for JSON parsing filters and provides direct field access in automations.
 
 ### Service Architecture
 - **image_analyzer**: Single image analysis with structured output support
