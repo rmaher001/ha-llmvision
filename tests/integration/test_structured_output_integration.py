@@ -517,7 +517,7 @@ class TestStructuredOutputIntegration:
         
         # Set up mock hass with provider config
         hass = MockHass()
-        provider_uid = setup_provider_config(hass, "Groq", api_key, "llava-v1.5-7b-4096-preview")
+        provider_uid = setup_provider_config(hass, "Groq", api_key, "meta-llama/llama-4-maverick-17b-128e-instruct")
         
         # Monkey patch to use real session
         import custom_components.llmvision.providers as providers_module
@@ -597,7 +597,7 @@ class TestStructuredOutputIntegration:
             CONF_IP_ADDRESS: localai_host,
             CONF_PORT: localai_port,
             CONF_HTTPS: False,
-            CONF_DEFAULT_MODEL: "gpt-4-vision-preview"
+            CONF_DEFAULT_MODEL: "opengvlab_internvl3_5-8b"
         }
         
         # Monkey patch to use real session

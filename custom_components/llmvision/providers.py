@@ -711,11 +711,33 @@ class AzureOpenAI(Provider):
                 payload["messages"].insert(
                     0, {"role": "developer", "content": system_prompt}
                 )
+        
+        # Add structured output format if requested
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Add additionalProperties: false to schema for OpenAI strict mode
+                if "additionalProperties" not in schema:
+                    schema["additionalProperties"] = False
+                
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": True
+                    }
+                }
+            except json.JSONDecodeError:
+                # If schema is invalid, don't add structured output
+                pass
         return payload
 
     def _prepare_text_data(self, call: dict) -> list:
         default_parameters = self._get_default_parameters(call)
-        return {
+        payload = {
             "messages": [
                 {"role": "user", "content": [{"type": "text", "text": call.message}]}
             ],
@@ -724,6 +746,29 @@ class AzureOpenAI(Provider):
             "top_p": default_parameters.get("top_p"),
             "stream": False,
         }
+        
+        # Add structured output format if requested
+        if call.response_format == "json" and call.structure:
+            import json
+            try:
+                schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
+                
+                # Add additionalProperties: false to schema for OpenAI strict mode
+                if "additionalProperties" not in schema:
+                    schema["additionalProperties"] = False
+                
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": True
+                    }
+                }
+            except json.JSONDecodeError:
+                # If schema is invalid, don't add structured output
+                pass
+        return payload
 
     async def validate(self) -> None | ServiceValidationError:
         if not self.api_key:
@@ -1049,10 +1094,12 @@ class Groq(Provider):
             "top_p": default_parameters.get("top_p"),
         }
 
-        system_prompt = call.memory.system_prompt
-        payload["messages"].insert(
-            0, {"role": "user", "content": "System Prompt:" + system_prompt}
-        )
+        if call.use_memory and call.memory:
+            system_prompt = call.memory.system_prompt
+            if system_prompt:
+                payload["messages"].insert(
+                    0, {"role": "user", "content": "System Prompt:" + system_prompt}
+                )
 
         # Add structured output format if requested
         if call.response_format == "json" and call.structure:
@@ -1181,12 +1228,19 @@ class LocalAI(Provider):
                     0, {"role": "system", "content": system_prompt}
                 )
 
-        # Add structured output support
+        # Add structured output support (OpenAI-compatible)
         if call.response_format == "json" and call.structure:
             import json
             try:
                 schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
-                payload["grammar_json_functions"] = [schema]
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": False  # LocalAI may not support strict mode
+                    }
+                }
             except json.JSONDecodeError as e:
                 raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
 
@@ -1204,12 +1258,19 @@ class LocalAI(Provider):
             "top_p": default_parameters.get("top_p"),
         }
 
-        # Add structured output support
+        # Add structured output support (OpenAI-compatible)
         if call.response_format == "json" and call.structure:
             import json
             try:
                 schema = json.loads(call.structure) if isinstance(call.structure, str) else call.structure
-                payload["grammar_json_functions"] = [schema]
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "response",
+                        "schema": schema,
+                        "strict": False  # LocalAI may not support strict mode
+                    }
+                }
             except json.JSONDecodeError as e:
                 raise ServiceValidationError(f"Invalid JSON in structure parameter: {str(e)}")
 
@@ -1231,7 +1292,7 @@ class LocalAI(Provider):
             raise ServiceValidationError("handshake_failed")
 
     def supports_structured_output(self) -> bool:
-        """LocalAI supports structured output via grammar_json_functions parameter."""
+        """LocalAI supports structured output via OpenAI-compatible JSON schema format."""
         return True
 
 
