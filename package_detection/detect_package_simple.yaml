@@ -3,29 +3,42 @@ description: >-
   State-based package detection using structured output from multiple cameras.
   Detects package presence rather than activities.
 triggers:
-  # Motion triggers to check for packages
-  - trigger: state
-    entity_id: binary_sensor.entrance_camera_motion
-    to: "on"
-    id: motion_detected
-  
-  # Periodic check every hour during delivery hours
+  - trigger: event
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossLineDetection
+      action: Start
+      data:
+        Name: Enter-Patio
+        Direction: RightToLeft
+        Object:
+          Action: Appear
+          ObjectType: Human
+    id: person_approaching
+  - trigger: event
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossRegionDetection
+      action: Start
+      data:
+        Direction: Leave
+        Name: Door-Area
+        Object:
+          ObjectType: Human
+    id: person_exiting_house
   - trigger: time_pattern
-    hours: "/1"
+    hours: /1
     id: periodic_check
-
 conditions:
-  # Only run during reasonable delivery hours
   - condition: time
     after: "07:00:00"
     before: "22:00:00"
-
 actions:
   - variables:
       check_time: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
       trigger_type: "{{ trigger.id }}"
-      
-  # Check package state using structured output
   - action: llmvision.stream_analyzer
     data:
       remember: true
@@ -92,38 +105,48 @@ actions:
                   "additionalProperties": false
                 }
     response_variable: detection_result
-
-  # Process the detection result
   - variables:
-      package_detected: "{{ detection_result.structured_response.package_present | default(false) }}"
+      package_detected: >-
+        {{ detection_result.structured_response.package_present | default(false)
+        }}
       confidence: "{{ detection_result.structured_response.confidence | default(0) }}"
       location: "{{ detection_result.structured_response.location | default('none') }}"
       package_count: "{{ detection_result.structured_response.package_count | default(0) }}"
-      delivery_person: "{{ detection_result.structured_response.delivery_person | default(false) }}"
+      delivery_person: >-
+        {{ detection_result.structured_response.delivery_person | default(false)
+        }}
       carrier: "{{ detection_result.structured_response.carrier | default('None') }}"
-      description: "{{ detection_result.structured_response.description | default('No packages detected') }}"
+      description: >-
+        {{ detection_result.structured_response.description | default('No
+        packages detected') }}
       current_state: "{{ states('input_boolean.package_at_door') }}"
-
-  # Log detection for debugging
   - action: persistent_notification.create
     data:
-      title: "Package Detection Check"
-      message: |
+      title: Package Detection Check
+      message: >
         **Time:** {{ check_time }}
-        **Trigger:** {{ trigger_type }}
-        **Package Detected:** {{ 'Yes' if package_detected else 'No' }}
-        **Confidence:** {{ (confidence * 100) | round(0) }}%
-        **Location:** {{ location }}
-        **Count:** {{ package_count }}
-        **Delivery Person:** {{ 'Yes' if delivery_person else 'No' }}
-        **Carrier:** {{ carrier }}
-        **Description:** {{ description }}
-        **Current State:** {{ current_state }}
-        **State Change:** {{ 'Yes' if (package_detected and current_state == 'off') or (not package_detected and current_state == 'on') else 'No' }}
 
-  # Update package state if confidence is high enough
+        **Trigger:** {{ trigger_type }}
+
+        **Package Detected:** {{ 'Yes' if package_detected else 'No' }}
+
+        **Confidence:** {{ (confidence * 100) | round(0) }}%
+
+        **Location:** {{ location }}
+
+        **Count:** {{ package_count }}
+
+        **Delivery Person:** {{ 'Yes' if delivery_person else 'No' }}
+
+        **Carrier:** {{ carrier }}
+
+        **Description:** {{ description }}
+
+        **Current State:** {{ current_state }}
+
+        **State Change:** {{ 'Yes' if (package_detected and current_state ==
+        'off') or (not package_detected and current_state == 'on') else 'No' }}
   - choose:
-      # Package detected with high confidence - set state to on
       - conditions:
           - condition: template
             value_template: "{{ package_detected and confidence >= 0.7 }}"
@@ -134,38 +157,37 @@ actions:
           - action: input_boolean.turn_on
             target:
               entity_id: input_boolean.package_at_door
-          
-          # Send notification about new package
           - action: notify.persistent_notification
             data:
-              title: "📦 Package Delivered{% if carrier != 'None' and carrier != 'Unknown' %} - {{ carrier }}{% endif %}"
+              title: >-
+                📦 Package Delivered{% if carrier != 'None' and carrier !=
+                'Unknown' %} - {{ carrier }}{% endif %}
               message: |
                 {{ package_count }} package(s) detected at {{ location }}
                 {% if carrier != 'None' %}Carrier: {{ carrier }}{% endif %}
                 {% if delivery_person %}Delivery person seen{% endif %}
                 {{ description }}
                 Time: {{ check_time }}
-
-          # Send mobile notification
           - action: notify.mobile_app_pixel_10_pro_fold
             data:
-              title: "📦 {% if carrier != 'None' and carrier != 'Unknown' %}{{ carrier }} {% endif %}Package Delivered"
-              message: "{{ package_count }} package(s) at {{ location }}{% if delivery_person %} - delivery person seen{% endif %}"
+              title: >-
+                📦 {% if carrier != 'None' and carrier != 'Unknown' %}{{ carrier
+                }} {% endif %}Package Delivered
+              message: >-
+                {{ package_count }} package(s) at {{ location }}{% if
+                delivery_person %} - delivery person seen{% endif %}
               data:
                 tag: package_delivery
                 importance: high
-
-          # Announce on speakers
           - action: media_player.volume_set
             data:
               volume_level: 0.35
             target:
               entity_id: media_player.home_group
-          
           - action: tts.cloud_say
             data:
               cache: false
-              message: >
+              message: |
                 {% if carrier != 'None' and carrier != 'Unknown' %}
                   {{ carrier }} package delivered at {{ location }}. {{ package_count }} package{{ 's' if package_count > 1 else '' }} detected.
                 {% else %}
@@ -173,8 +195,6 @@ actions:
                 {% endif %}
             target:
               entity_id: media_player.home_group
-                
-      # No package detected with high confidence - set state to off
       - conditions:
           - condition: template
             value_template: "{{ not package_detected and confidence >= 0.7 }}"
@@ -185,37 +205,31 @@ actions:
           - action: input_boolean.turn_off
             target:
               entity_id: input_boolean.package_at_door
-          
-          # Send notification about package removal
           - action: notify.persistent_notification
             data:
-              title: "📦 Package Collected"
+              title: 📦 Package Collected
               message: |
                 Package has been picked up
                 Time: {{ check_time }}
-
-          # Send mobile notification for pickup
           - action: notify.mobile_app_pixel_10_pro_fold
             data:
-              title: "📦 Package Collected"
-              message: "Package has been picked up from {{ location }}"
+              title: 📦 Package Collected
+              message: Package has been picked up from {{ location }}
               data:
                 tag: package_pickup
                 importance: default
-
-          # Announce pickup on speakers
           - action: media_player.volume_set
             data:
               volume_level: 0.35
             target:
               entity_id: media_player.home_group
-          
           - action: tts.cloud_say
             data:
               cache: false
-              message: "Package has been picked up from {{ location }}."
+              message: Package has been picked up from {{ location }}.
             target:
               entity_id: media_player.home_group
-
 mode: single
 max_exceeded: silent
+trace:
+  stored_traces: 100
