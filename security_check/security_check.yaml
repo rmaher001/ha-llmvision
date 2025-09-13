@@ -1,0 +1,164 @@
+alias: Security Check Local LLM - Latest
+description: >-
+  Analyzes camera feeds for security events when a person crosses a specific
+  line.
+triggers:
+  - id: enter_patio
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossLineDetection
+      action: Start
+      data:
+        Name: Enter-Patio
+        Object:
+          ObjectType: Human
+    trigger: event
+    enabled: true
+  - id: enter_door
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossLineDetection
+      action: Start
+      data:
+        Name: Enter-Door
+        Object:
+          ObjectType: Human
+    trigger: event
+    enabled: true
+  - trigger: event
+    event_type: dahua_event_received
+    event_data:
+      Code: CrossRegionDetection
+      action: Start
+      data:
+        Action: Cross
+        Name: Door-Area
+        Direction: Enter
+        Object:
+          Action: Appear
+          ObjectType: Human
+      name: Front Full Camera
+    id: enter_door_area
+  - id: manual_run
+    entity_id: input_button.run_scecurity_check
+    trigger: state
+conditions:
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ trigger.id == 'enter_patio' }}"
+      - condition: template
+        value_template: "{{ trigger.id == 'manual_run' }}"
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ trigger.id in ['enter_door', 'enter_door_area'] }}"
+          - condition: template
+            value_template: >
+              {% set patio_time = states('input_datetime.last_enter_patio_time')
+              %} {% if patio_time != 'unknown' and patio_time != 'unavailable'
+              %}
+                {% set patio_datetime = patio_time | as_datetime %}
+                {% if patio_datetime %}
+                  {{ (as_timestamp(now()) - as_timestamp(patio_datetime)) > 60 }}
+                {% else %}
+                  true
+                {% endif %}
+              {% else %}
+                true
+              {% endif %}
+actions:
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'enter_patio' }}"
+    then:
+      - action: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.last_enter_patio_time
+        data:
+          datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+  - variables:
+      trigger_time_obj: "{{ now() }}"
+      trigger_source: |
+        {% if trigger.id in ['enter_patio', 'exit_door'] %}
+          Event: {{ trigger.event.data.data.Name }}
+        {% else %}
+          Manual Run
+        {% endif %}
+      face_recognized_state: "{{ states('binary_sensor.entrance_face_recognition_sensor') }}"
+      front_door_state: "{{ states('lock.front_door_lock') }}"
+      garage_door_state: "{{ states('cover.group_garage_door_opener_door') }}"
+  - data:
+      remember: true
+      use_memory: true
+      duration: 5
+      max_frames: 10
+      include_filename: true
+      target_width: 640
+      generate_title: true
+      expose_images: true
+      image_entity:
+        - camera.doorbell_clear
+        - camera.front_full_camera_main
+        - camera.front_side_camera_hd_stream
+        - camera.patio_camera_hd_stream
+        - camera.sidewalk_street_camera_main
+        - camera.entrance_camera_clear
+        - camera.garage_camera_hd_stream
+        - camera.living_room_camera_2_clear
+        - camera.living_room_camera_1_clear
+      provider: 01K0Z9TVHR1F4MAKFQ534145YS
+      max_tokens: 500
+      message: >-
+        Examine the time stamped snapshots from the security camera streams for
+        any security events and generate a response suitable for a notification.
+        IMPORTANT: You have access to labeled photos of known residents. When you
+        recognize any known person in the frames, you MUST explicitly state their
+        name(s) in your response. Do not refer to them generically as "person" or
+        "individual" - use their actual names from the labeled photos.
+        For unknown persons, describe them as "unidentified person" or "unknown visitor".
+        Always include the specific names of any recognized known residents,
+        description of any unidentified persons, what activity is occurring,
+        and any security-relevant observations.
+    response_variable: response
+    action: llmvision_debug.stream_analyzer
+  - data:
+      title: "Security Check: {{ trigger_source }}"
+      message: >
+        {% if response and response.key_frame %}
+
+        ![image](/local/{{ response.key_frame[12:] }})
+
+        {% endif %}
+
+
+        {{ response.response_text | default('LLM analysis did not provide a
+        summary.') }}
+
+
+        ---
+
+        **Event Details:**
+
+        - **Time:** {{ trigger_time_obj | as_timestamp |
+        timestamp_custom('%Y-%m-%d %H:%M:%S.%f') }}
+
+        - **Trigger:** {{ trigger_source }}
+
+        - **Face Recognized:** {{ face_recognized_state }}
+
+        - **Front Door:** {{ front_door_state }}
+
+        - **Garage Door:** {{ garage_door_state }}
+
+
+        [Video
+        Context](https://home.ram6.com/api/scrypted/e71cc4f78d8e384e7433761a116a669d/endpoint/@scrypted/nvr/public/#/timeline/153?time={{
+        ((trigger_time_obj | as_timestamp - 5) | int) * 1000
+        }}&from=notification&serverId=f0411c1fd4b1cb38)
+    action: persistent_notification.create
+mode: single
+trace:
+  stored_traces: 100

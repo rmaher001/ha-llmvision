@@ -1,230 +1,127 @@
-# CLAUDE.md - LLM Vision Integration
+# CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with the LLM Vision Home Assistant custom integration.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-Home Assistant custom integration for AI-powered image/video analysis using multiple LLM providers. This is the debug version that runs alongside the production version with comprehensive logging.
-
-**Key directories:**
-- `custom_components/llmvision/` - Main integration code
-- `blueprints/` - Home Assistant automation blueprints
-- `benchmark_visualization/` - Performance analysis tools
-- `tests/` - Comprehensive test suite including structured output validation
-
-## Development Commands
-
-### LLM Vision Integration
-No build process required - Home Assistant loads custom components directly.
-
-**Installation:**
-1. Copy `custom_components/llmvision/` to Home Assistant's `custom_components/` directory
-2. Restart Home Assistant
-3. Add integration via Settings > Devices & Services
-
-**Testing Structured Output:**
-```bash
-cd ha-llmvision
-source ~/.zshrc  # Load API keys
-source tests/venv/bin/activate
-python tests/integration/test_structured_output_integration.py [openai|anthropic|google|ollama|azureopenai|groq|localai|bedrock]
-```
-
-**Debug Logging:**
-Enable in Home Assistant configuration.yaml:
-```yaml
-logger:
-  default: info
-  logs:
-    custom_components.llmvision: debug
-```
+This directory contains Home Assistant automation configurations for intelligent security monitoring and vehicle detection. The automations leverage AI vision analysis and event-driven triggers to provide real-time notifications and responses.
 
 ## Architecture
 
-### Provider Abstraction Pattern
-- Supports OpenAI, Anthropic, Google, AWS Bedrock, Groq, Ollama, LocalAI, OpenWebUI
-- **✅ Phase 1: Structured JSON Output** - COMPLETE across ALL 8/8 providers
-- Service-oriented architecture with 5 main services: image_analyzer, video_analyzer, stream_analyzer, data_analyzer, remember
-- Memory system for persistent context across calls
-- Timeline/calendar integration for event storage
-- Comprehensive LLM call logging to `/config/www/llmvision/logs/`
+### Directory Structure
+- `detect_tow_truck/` - AI-powered tow truck and patrol car detection with urgent notifications
+- `security_check/` - Human detection and security monitoring for line-crossing events
+- `package_detection/` - State-based package delivery/pickup detection with structured output
 
-### Structured Output Implementation
+Each automation directory contains:
+- Main YAML automation file
+- Individual CLAUDE.md with specific details
+- Test assets and helper configurations (where applicable)
 
-#### **Current Status**
-**Phase 1 - Services**: ✅ COMPLETE - All 3 services support structured JSON responses:
-- **image_analyzer**: ✅ Single image analysis with structured output
-- **stream_analyzer**: ✅ Multi-camera stream analysis with structured output  
-- **video_analyzer**: ✅ Video frame analysis with structured output
-
-**Phase 1 - Providers**: ✅ ALL 8/8 providers tested and working with structured output:
-
-#### **✅ ALL Providers Confirmed Working** (Tested with real API calls)
-
-**Tier 1 - Strict Schema Compliance (100% reliability)**
-- **OpenAI**: JSON Schema with `strict: true` mode ✅ TESTED
-- **Anthropic**: Tool-based structured output approach ✅ TESTED
-- **Google**: `response_json_schema` in generationConfig ✅ TESTED
-- **AWS Bedrock**: Converse API with forced `toolChoice` ✅ TESTED
-- **AzureOpenAI**: OpenAI-compatible JSON schema with `strict: true` ✅ TESTED
-
-**Tier 2 - High Reliability**
-- **Ollama**: Native `format` parameter for structured output ✅ TESTED
-- **Groq**: OpenAI-compatible JSON schema mode ✅ TESTED
-- **LocalAI**: OpenAI-compatible JSON schema format ✅ TESTED
-
-#### **Implementation Status**
-**ALL 8 providers fully implemented and tested:**
-1. **OpenAI**: Native JSON Schema with strict validation ✅ WORKING
-2. **Anthropic**: Tool-based with function calling ✅ WORKING  
-3. **Google**: Native `response_json_schema` parameter ✅ WORKING
-4. **AWS Bedrock**: Converse API with forced tool selection ✅ WORKING
-5. **AzureOpenAI**: OpenAI-compatible JSON schema with strict mode ✅ WORKING
-6. **Groq**: OpenAI-compatible JSON schema mode ✅ WORKING
-7. **LocalAI**: OpenAI-compatible JSON schema format ✅ WORKING
-8. **Ollama**: Native `format` parameter ✅ WORKING
-
-**Key Implementation Notes:**
-- **AWS Bedrock**: Required `toolChoice: {"tool": {"name": "return_structured_data"}}` to force tool usage
-- **Groq**: Uses `strict: false` due to API limitations, tested with `meta-llama/llama-4-maverick-17b-128e-instruct`
-- **LocalAI**: Uses OpenAI-compatible format, tested with `llava-1.5` model (7B parameters, 3.8GB)
-- **Ollama**: Model-dependent, tested with remote server at 192.168.86.84
-- **AzureOpenAI**: Identical to OpenAI implementation with strict mode support
-
-**Testing Status**: 
-- ✅ **ALL 8/8 Providers Working**: Complete integration testing with real API calls
-- ✅ **Full Coverage**: OpenAI, Anthropic, Google, AWS Bedrock, AzureOpenAI, Groq, LocalAI, Ollama
-- ✅ **Ready for Production**: All providers validated with structured output schemas
-- ✅ **Phase 1 Complete**: Structured JSON output fully implemented across all providers
-
-See `tests/README_STRUCTURED_OUTPUT_TESTING.md` for testing procedures.
-
-### Using Structured Output in Automations
-
-**How It Works:**
-1. Set `response_format: json` and provide a JSON `structure` schema
-2. LLM returns raw JSON string matching the schema
-3. LLM Vision parses this into `response.structured_response` object
-4. Access fields directly: `{{ response.structured_response.field_name }}`
-
-**Response Structure:**
+### Common Automation Pattern
+All automations follow Home Assistant's standard YAML structure:
 ```yaml
-response:
-  title: "Event Detected"                    # Generated title
-  structured_response:                       # Parsed JSON object
-    people_count: 0
-    objects_detected: ["plant", "grill"] 
-    activity_level: "low"
-    scene_description: "Front porch view..."
-  response_text: "{ ... }"                   # Raw JSON string (for debugging)
-  key_frame: "/path/to/image.jpg"           # Selected frame path
+alias: Human-readable name
+description: What the automation does
+triggers: Event(s) that start the automation
+conditions: Optional conditions that must be met
+actions: Actions to perform when triggered
 ```
 
-**Automation Usage Examples:**
-```yaml
-# Condition based on structured data
-- condition: template
-  value_template: "{{ response.structured_response.people_count > 0 }}"
+## Key Features
 
-# Use in notifications  
-- service: notify.mobile_app
-  data:
-    message: "Detected {{ response.structured_response.objects_detected | length }} objects"
+### AI Vision Integration
+- Uses Home Assistant's `ai_task.generate_data` action for intelligent analysis
+- Structured data extraction from camera feeds
+- Context-aware detection with configurable prompts
 
-# Loop through detected objects
-- service: script.process_objects
-  data:
-    objects: "{{ response.structured_response.objects_detected }}"
+### Multi-Channel Notifications
+- Persistent notifications in Home Assistant UI
+- Text-to-speech announcements across multiple speakers
+- Email and SMS notifications via `notify` services
+- Dynamic volume control for audio devices
 
-# Access individual fields
-- service: input_number.set_value
-  target:
-    entity_id: input_number.people_count
-  data:
-    value: "{{ response.structured_response.people_count }}"
-```
+### Testing Infrastructure
+- Test mode switches for development validation
+- Mock image analysis using static test images
+- Bypass conditions for isolated testing
 
-**Comparison with Raw JSON:**
-```yaml
-# With structured output (clean)
-{{ response.structured_response.people_count }}
+## Development Commands
 
-# Without structured output (requires JSON parsing)
-{{ (response.response_text | from_json).people_count }}
-```
-
-The structured approach eliminates the need for JSON parsing filters and provides direct field access in automations.
-
-### Service Architecture
-- **image_analyzer**: Single image analysis with structured output support
-- **video_analyzer**: Video frame extraction and analysis
-- **stream_analyzer**: Real-time camera stream processing
-- **data_analyzer**: Text/data analysis without vision
-- **remember**: Memory management and event storage
-
-### Memory System
-- Persistent context across service calls
-- Image memory with configurable retention
-- Timeline integration for Home Assistant calendar
-- Automatic cleanup and rotation
-
-## Testing
-
-### Prerequisites
-Set API keys in `~/.zshrc`:
+### Configuration Validation
 ```bash
-export OPENAI_API_KEY="your-openai-api-key"
-export ANTHROPIC_API_KEY="your-anthropic-api-key" 
-export GOOGLE_API_KEY="your-google-api-key"
+# Validate Home Assistant configuration
+hass --script check_config
 ```
 
-For Ollama testing:
+### Service Management
 ```bash
-ollama serve  # Default: localhost:11434
-ollama pull llava  # Pull vision model
+# Restart Home Assistant after changes
+sudo systemctl restart homeassistant
+
+# View real-time logs
+journalctl -u homeassistant -f
 ```
 
-### Running Tests
+### Automation Testing
 ```bash
-# ALL providers confirmed working with structured output
-source ~/.zshrc && source tests/venv/bin/activate
-python tests/integration/test_structured_output_integration.py openai       # ✅ WORKING
-python tests/integration/test_structured_output_integration.py anthropic    # ✅ WORKING
-python tests/integration/test_structured_output_integration.py google       # ✅ WORKING  
-python tests/integration/test_structured_output_integration.py bedrock      # ✅ WORKING
-python tests/integration/test_structured_output_integration.py azureopenai  # ✅ WORKING
-python tests/integration/test_structured_output_integration.py groq         # ✅ WORKING
-python tests/integration/test_structured_output_integration.py localai      # ✅ WORKING (requires LocalAI server)
-python tests/integration/test_structured_output_integration.py ollama       # ✅ WORKING (requires Ollama server)
-
-# Test all providers at once
-source ~/.zshrc && ./tests/run_structured_output_test.sh
+# Test automation via Home Assistant service
+curl -X POST \
+  http://homeassistant.local:8123/api/services/automation/trigger \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{"entity_id": "automation.your_automation_alias"}'
 ```
 
-## Important Notes
+## Entity Dependencies
 
-- No traditional package managers - dependencies declared in manifest.json
-- All components use Home Assistant's async patterns
-- Debug version can run side-by-side with production version
-- Comprehensive logging available for debugging
-- Each provider has unique structured output implementation
-- Integration tests validate against real LLM APIs
+### Common Requirements
+- Camera entities for image capture
+- Binary sensors for motion/occupancy detection
+- AI task services for vision analysis
+- Media player entities for TTS notifications
+- Notification services for alerts
 
-## File Structure
+### Specific Automations
 
-```
-ha-llmvision/
-├── custom_components/llmvision/
-│   ├── __init__.py              # Integration setup
-│   ├── providers.py             # LLM provider implementations
-│   ├── const.py                 # Constants and configuration
-│   ├── services.py              # Service implementations
-│   ├── memory.py                # Memory system
-│   └── manifest.json            # Integration metadata
-├── tests/
-│   ├── integration/
-│   │   └── test_structured_output_integration.py
-│   ├── README_STRUCTURED_OUTPUT_TESTING.md
-│   └── run_structured_output_test.sh
-└── CLAUDE.md                    # This file
-```
+**detect_tow_truck:**
+- `binary_sensor.entrance_camera_motion`
+- `binary_sensor.garage_camera_smart_occupancy_sensor_occupancysensor`
+- `camera.entrance_camera_clear`
+- `ai_task.google_ai_task`
+- Multiple `media_player` entities
+- `notify.richard_ram6_com`
+- `input_boolean.test_tow_truck_mode` (helper)
+
+**security_check:**
+- Dahua camera event system (`dahua_event_received`)
+- Line detection events for "Enter-Patio" and "Enter-Door"
+- Human object detection triggers
+
+## Testing Strategy
+
+### Test Mode Setup
+1. Add helper configurations to Home Assistant
+2. Deploy test images to `/config/www/test_images/`
+3. Enable test mode via input_boolean entities
+4. Trigger motion sensors to test automation flow
+
+### Validation Steps
+1. Monitor Home Assistant logs for automation execution
+2. Verify AI vision analysis results
+3. Confirm notification delivery across all channels
+4. Test edge cases with different detection scenarios
+
+## Configuration Notes
+
+- Automations use YAML anchors for code reuse (speakers, notification targets)
+- Dynamic message templates based on detection results
+- Conditional actions based on AI analysis outcomes
+- Volume control sequences for non-disruptive audio notifications
+
+## Important Considerations
+
+- AI vision analysis requires active camera entities
+- Network connectivity needed for cloud-based AI services
+- Test mode bypasses normal operational conditions
+- Each automation can run independently
+- Detailed logging available in individual automation directories

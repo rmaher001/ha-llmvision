@@ -1,0 +1,126 @@
+alias: Detect Tow Truck
+description: Are we gonna get towed?
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.entrance_camera_motion
+    to: "on"
+conditions:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.garage_camera_smart_occupancy_sensor_occupancysensor
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.test_tow_truck_mode
+        state: "on"
+actions:
+  - action: ai_task.generate_data
+    data:
+      task_name: Detect tow truck or patrol car outside the garage
+      instructions: >-
+        You are looking at the street outside the garage. Do you see a tow
+        truck or patrol car?
+      structure:
+        tow_truck:
+          description: Tow truck
+          required: true
+          selector:
+            boolean: null
+        patrol_car:
+          description: Patrol car
+          required: true
+          selector:
+            boolean: null
+      attachments: >-
+        {% if is_state('input_boolean.test_tow_truck_mode', 'on') %}
+          {
+            "media_content_id": "media-source://media_source/local/test_images/{{ states('input_select.test_tow_truck_image_select') }}",
+            "media_content_type": "image/jpeg",
+            "metadata": {
+              "title": "Test Image - {{ states('input_select.test_tow_truck_image_select') }}",
+              "media_class": "image"
+            }
+          }
+        {% else %}
+          {
+            "media_content_id": "media-source://camera/camera.entrance_camera_clear",
+            "media_content_type": "application/vnd.apple.mpegurl",
+            "metadata": {
+              "title": "Garage Camera HD Stream",
+              "thumbnail": "/api/camera_proxy/camera.entrance_camera_clear",
+              "media_class": "video",
+              "children_media_class": null,
+              "navigateIds": [
+                {},
+                {
+                  "media_content_type": "app",
+                  "media_content_id": "media-source://camera"
+                }
+              ]
+            }
+          }
+        {% endif %}
+      entity_id: ai_task.google_ai_task
+    response_variable: response
+  - if:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: "{{ response.data.tow_truck }}"
+          - condition: template
+            value_template: "{{ response.data.patrol_car }}"
+    then:
+      - variables:
+          vehicle_type: >-
+            {% if response.data.tow_truck %}
+              tow truck
+            {% else %}
+              patrol car
+            {% endif %}
+          vehicle_title: >-
+            {% if response.data.tow_truck %}
+              Tow Truck
+            {% else %}
+              Patrol Car
+            {% endif %}
+      - action: notify.persistent_notification
+        data:
+          message: "There is a {{ vehicle_type }} outside, better move the car."
+          title: "{{ vehicle_title }} outside"
+      - action: media_player.volume_set
+        data:
+          volume_level: 0.85
+        target:
+          entity_id:
+            - media_player.bathroom_speaker
+            - media_player.kitchen_display_2
+            - media_player.master_bedroom_speaker
+      - delay:
+          seconds: 1
+      - action: tts.cloud_say
+        data:
+          cache: false
+          message: "Move the car now. Repeat move the car now. {{ vehicle_title }} spotted outside."
+        target:
+          entity_id: media_player.home_group
+      - action: notify.richard_ram6_com
+        data:
+          title: "🔴 Move the car NOW - {{ vehicle_title }} Spotted"
+          message: "Move the car now. Repeat move the car now. {{ vehicle_title }} spotted outside."
+          data:
+            from: richard@ram6.com
+          target:
+            - 9497344665@msg.fi.google.com
+            - richard@ram6.com
+            - 9497340018@msg.fi.google.com
+            - olesia@ram6.com
+      - action: media_player.volume_set
+        data:
+          volume_level: 0.35
+        target:
+          entity_id:
+            - media_player.bathroom_speaker
+            - media_player.kitchen_display_2
+            - media_player.master_bedroom_speaker
+mode: single
