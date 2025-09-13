@@ -597,7 +597,7 @@ class TestStructuredOutputIntegration:
             CONF_IP_ADDRESS: localai_host,
             CONF_PORT: localai_port,
             CONF_HTTPS: False,
-            CONF_DEFAULT_MODEL: "opengvlab_internvl3_5-8b"
+            CONF_DEFAULT_MODEL: "llava-1.5"
         }
         
         # Monkey patch to use real session

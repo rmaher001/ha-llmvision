@@ -176,6 +176,7 @@ class MediaProcessor:
         all_frames.sort(key=lambda x: x[2])
         
         selected_frames = []
+        selected_frame_names = set()  # Track selected frames by name
         camera_frame_counts = {camera: 0 for camera in camera_frames.keys()}
         
         # First pass: try to satisfy minimum frames per camera
@@ -185,6 +186,7 @@ class MediaProcessor:
                 
             if camera_frame_counts[camera_entity] < min_frames_per_camera:
                 selected_frames.append((frame_name, frame_data, ssim_score))
+                selected_frame_names.add(frame_name)
                 camera_frame_counts[camera_entity] += 1
         
         # Second pass: fill remaining slots with best frames
@@ -193,10 +195,12 @@ class MediaProcessor:
                 break
                 
             # Skip if already selected
-            if (frame_name, frame_data, ssim_score) in selected_frames:
+            if frame_name in selected_frame_names:
                 continue
                 
             selected_frames.append((frame_name, frame_data, ssim_score))
+            selected_frame_names.add(frame_name)
+            camera_frame_counts[camera_entity] += 1
         
         return selected_frames, camera_frame_counts
 
