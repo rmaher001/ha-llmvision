@@ -1,0 +1,42 @@
+# Append these to your Home Assistant configuration.yaml file
+
+input_boolean:
+  package_at_door:
+    name: Package at Door
+    icon: mdi:package-variant
+    initial: false
+
+input_select:
+  llmvision_provider:
+    name: LLM Vision Provider
+    options:
+      - "01K0Z9TVHR1F4MAKFQ534145YS"  # Default provider ID
+      - "openai"
+      - "anthropic"
+      - "google"
+      - "groq"
+    initial: "01K0Z9TVHR1F4MAKFQ534145YS"
+    icon: mdi:brain
+
+# Optional helpers for tracking
+input_datetime:
+  last_package_delivered:
+    name: Last Package Delivered
+    has_date: true
+    has_time: true
+    icon: mdi:clock-outline
+
+  last_package_collected:
+    name: Last Package Collected  
+    has_date: true
+    has_time: true
+    icon: mdi:clock-check-outline
+
+input_number:
+  package_detection_confidence_threshold:
+    name: Package Detection Confidence Threshold
+    min: 0.5
+    max: 1.0
+    step: 0.05
+    initial: 0.7
+    icon: mdi:gauge

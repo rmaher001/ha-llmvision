@@ -1,0 +1,266 @@
+alias: Package Delivery and Pickup Detection
+description: >-
+  Unified automation for detecting package deliveries and pickups with optimized
+  LLM prompt
+triggers:
+  - trigger: event
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossLineDetection
+      action: Start
+      data:
+        Name: Enter-Patio
+        Direction: RightToLeft
+        Object:
+          Action: Appear
+          ObjectType: Human
+    id: person_approaching
+  - trigger: event
+    event_type: dahua_event_received
+    event_data:
+      name: Front Full Camera
+      Code: CrossRegionDetection
+      action: Start
+      data:
+        Direction: Leave
+        Name: Door-Area
+        Object:
+          ObjectType: Human
+    id: person_exiting_house
+conditions: []
+actions:
+  - variables:
+      current_time: "{{ now().strftime('%Y-%m-%d %H:%M:%S.%f') }}"
+      current_timestamp: "{{ now() | as_timestamp }}"
+      trigger_direction: |
+        {% if trigger.id == 'person_approaching' %}
+          approaching_from_outside
+        {% elif trigger.id == 'person_exiting_house' %}
+          exiting_house_to_patio
+        {% else %}
+          unknown
+        {% endif %}
+      is_known_resident: "{{ states('binary_sensor.entrance_face_recognition_sensor') }}"
+      front_door_state: "{{ states('lock.front_door_lock') }}"
+      is_delivery_hours: |
+        {% set hour = now().hour %} {{ 8 <= hour <= 20 }}
+  - action: llmvision.stream_analyzer
+    data:
+      remember: true
+      use_memory: true
+      include_filename: true
+      duration: 15
+      max_frames: 15
+      target_width: 1280
+      max_tokens: 120
+      temperature: 0
+      generate_title: false
+      expose_images: true
+      provider: 01K0Z9TVHR1F4MAKFQ534145YS
+      image_entity:
+        - camera.front_full_camera_main
+        - camera.front_side_camera_hd_stream
+      message: >
+        You are a JSON-only response bot. Respond with EXACTLY this JSON format,
+        no other text:
+
+        ```json
+        {"event_type":"VALUE","package_detected":BOOLEAN,"package_action":"VALUE","is_resident":BOOLEAN,"carrier":"VALUE","confidence":NUMBER,"location":"VALUE","person_description":"VALUE","notification_text":"VALUE"}
+        ```
+
+        Context: Movement={{ trigger_direction }}, Face={{ is_known_resident }},
+        Hours={{ is_delivery_hours }}, Door={{ front_door_state }}
+
+        Rules: - DELIVERY: Person enters patio with package, drops it anywhere,
+        leaves. Use "delivered" - PICKUP: Person exits house, picks up package
+        from patio, goes inside. Use "picked_up"   - MOTION_ONLY: Dog handling,
+        shoes, groceries, no packages. Use "none"
+
+        event_type: "delivery" OR "pickup" OR "motion_only" package_detected:
+        true OR false package_action: "delivered" OR "picked_up" OR "none"
+        is_resident: true OR false (based on {{ is_known_resident }}) carrier:
+        "Amazon" OR "UPS" OR "FedEx" OR "USPS" OR "Unknown" OR null confidence:
+        0.0 to 1.0 location: "door" OR "porch" OR null person_description: Brief
+        text OR null notification_text: One sentence summary
+
+        CRITICAL: Only respond with the JSON in markdown code block. Nothing
+        else.
+    response_variable: response
+  - action: pyscript.extract_json_from_markdown
+    data:
+      markdown_string: |-
+        {% if response.response_text %}
+          {% set resp = response.response_text.strip() %}
+          {% if resp.startswith('```') %}
+            {{ resp }}
+          {% else %}
+            ```json
+            {{ resp }}
+            ```
+          {% endif %}
+        {% else %}
+          ```json
+          {"event_type":"motion_only","package_detected":false,"package_action":"none","is_resident":false,"carrier":null,"confidence":0.1,"location":null,"person_description":"no_response","notification_text":"No response from analysis."}
+          ```
+        {% endif %}
+    response_variable: json_result
+  - variables:
+      json_object: |-
+        {% if json_result and json_result.event_type is defined %}
+          {{ json_result }}
+        {% else %}
+          {
+            "event_type": "motion_only",
+            "package_detected": false,
+            "package_action": "none", 
+            "is_resident": {{ is_known_resident == 'on' }},
+            "carrier": null,
+            "confidence": 0.2,
+            "location": null,
+            "person_description": "parse_failed",
+            "notification_text": "Motion detected but analysis inconclusive."
+          }
+        {% endif %}
+  - action: persistent_notification.create
+    data:
+      title: Package Detection Debug
+      message: >
+        ![image](/local/{{response.key_frame[12:] }})
+
+        **Trigger:** {{ trigger_direction }}
+
+        **Time:** {{ current_time }}
+
+        **Known Resident:** {{ is_known_resident }}   
+
+        **Door:** {{front_door_state }}
+
+
+
+        **Raw LLM Response:**  
+
+        {{ response.response_text | default('No response') }}
+
+
+        **Extracted JSON:** 
+
+        ```
+
+        json {{ json_result | default('Extraction failed') }} 
+
+        ```
+
+        **Final JSON:** 
+
+        ``` 
+
+        {{ json_object }} 
+
+        ```
+
+        **Confidence:** {{ json_object.confidence | default('unknown') }}
+
+        [View
+        Recording](https://home.ram6.com/api/scrypted/e71cc4f78d8e384e7433761a116a669d/endpoint/@scrypted/nvr/public/#/timeline/153?time={{(((current_timestamp)
+        - 25) | int) * 1000}}&from=notification&serverId=f0411c1fd4b1cb38)
+  - if:
+      - condition: template
+        value_template: |-
+          {{ 
+            json_object.event_type is defined and 
+            json_object.package_detected is defined and
+            json_object.confidence is defined and
+            (json_object.confidence | float) > 0.7
+          }}
+    then:
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ json_object.package_action == 'delivered' }}"
+            sequence:
+              - parallel:
+                  - action: notify.mobile_app_pixel_10_pro_fold
+                    data:
+                      message: TTS
+                      data:
+                        ttl: 0
+                        priority: high
+                        media_stream: alarm_stream
+                        tts_text: "{{ json_object.notification_text }}"
+                  - action: notify.mobile_app_pixel_10_pro_fold
+                    data:
+                      title: 📦 Package Delivery
+                      message: "{{ json_object.notification_text }}"
+                      data:
+                        image: >-
+                          https://home.ram6.com/local/{{ response.key_frame[12:]
+                          }}
+                        clickAction: >-
+                          /api/scrypted/e71cc4f78d8e384e7433761a116a669d/endpoint/@scrypted/nvr/public/#/timeline/153?time={{
+                          (((current_timestamp) - 25) | int) * 1000
+                          }}&from=notification&serverId=f0411c1fd4b1cb38
+                        visibility: public
+                        sticky: true
+                        persistent: true
+                        tag: package_delivery
+                        car_ui: true
+                        ttl: 0
+                        priority: high
+                        actions:
+                          - action: mark_collected
+                            title: Mark as Collected
+                  - sequence:
+                      - condition: time
+                        after: "08:00:00"
+                        before: "21:00:00"
+                      - action: tts.cloud_say
+                        data:
+                          entity_id: media_player.home_group
+                          message: "{{ json_object.notification_text }}"
+                          cache: false
+                  - action: input_number.increment
+                    target:
+                      entity_id: input_number.packages_waiting_pickup
+                    data: {}
+                  - action: input_text.set_value
+                    target:
+                      entity_id: input_text.last_package_delivery
+                    data:
+                      value: >-
+                        {{ json_object.carrier|default('Unknown') }} @ {{
+                        current_time }}
+          - conditions:
+              - condition: template
+                value_template: "{{ json_object.package_action == 'picked_up' }}"
+            sequence:
+              - action: notify.mobile_app_pixel_10_pro_fold
+                data:
+                  title: 📦 Package Picked Up
+                  message: "{{ json_object.notification_text }}"
+                  data:
+                    tag: package_pickup
+                    ttl: 0
+                    priority: normal
+              - action: input_number.decrement
+                target:
+                  entity_id: input_number.packages_waiting_pickup
+                data: {}
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.last_package_pickup
+                data:
+                  value: Picked up @ {{ current_time }}
+    else:
+      - action: persistent_notification.create
+        data:
+          title: "⚠️ Package Detection: Low Confidence"
+          message: >
+            Motion detected but confidence too low for notification.
+
+            **Event:** {{ json_object.event_type | default('unknown') }}
+            **Confidence:** {{ json_object.confidence | default('0') }}
+            **Action:** {{ json_object.package_action | default('unknown') }}
+mode: single
+trace:
+  stored_traces: 100
