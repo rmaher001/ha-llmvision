@@ -432,7 +432,7 @@ class TestStructuredOutputIntegration:
         hass = MockHass()
         provider_uid = f"test_azureopenai_config"
         hass.data[DOMAIN][provider_uid] = {
-            CONF_PROVIDER: "AzureOpenAI",
+            CONF_PROVIDER: "Azure",
             CONF_API_KEY: api_key,
             CONF_DEFAULT_MODEL: "gpt-4o-mini",
             "endpoint": {
